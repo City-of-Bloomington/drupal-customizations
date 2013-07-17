@@ -23,3 +23,21 @@ function cob_node_siblings(array &$node)
 		}
 	}
 }
+
+function cob_location_programs($location_node_id)
+{
+	$sql = "select l.entity_id as program_id
+			from field_data_field_location l
+			left join field_data_field_program p on (p.entity_type='node' and l.entity_id=p.entity_id)
+			where l.field_location_target_id=?
+			and l.bundle='program'
+			and p.field_program_target_id is null";
+	$results = db_query($sql, array($location_node_id));
+
+	$programs = array();
+	foreach ($results as $row) {
+		$programs[] = $row->program_id;
+	}
+	$nodes = node_load_multiple($programs);
+	return $nodes;
+}
