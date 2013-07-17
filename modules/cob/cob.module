@@ -1,0 +1,25 @@
+<?php
+/**
+ * @copyright 2013 City of Bloomington, Indiana
+ * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
+ * @author Cliff Ingham <inghamn@bloomington.in.gov>
+ */
+function cob_node_siblings(array &$node)
+{
+	$field = 'field_'.$node['#bundle'];
+
+	if (isset(   $node[$field]['#items'][0]['target_id'])) {
+		$pid   = $node[$field]['#items'][0]['target_id'];
+		$query = new EntityFieldQuery();
+
+		$query->entityCondition('entity_type', 'node')
+				->entityCondition('bundle', $node['#bundle'])
+				->propertyCondition('status', 1)
+				->propertyCondition('nid', $node['#node']->nid, '<>')
+				->fieldCondition('field_program', 'target_id', $pid);
+		$results = $query->execute();
+		if (!empty($results['node'])) {
+			return node_load_multiple(array_keys($results['node']));
+		}
+	}
+}
