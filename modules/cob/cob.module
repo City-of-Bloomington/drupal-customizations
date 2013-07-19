@@ -25,20 +25,35 @@ function cob_node_siblings(array &$node)
 }
 
 /**
- * Returns the top level programs that reference a node
+ * Returns nodes of the given type that refer to the given node
  *
- * @param array $node
+ * Pass in the current node and specify what type of related nodes
+ * you're looking for.  Content type for $bundle must have a
+ * field reference to the content type of the current node.
+ *
+ * The $bundle type nodes might be in a hiearchy.  In that case,
+ * you can also specify if you want only the top level nodes of
+ * that content type.  By default, nodes from any level in the
+ * hiearchy will be returned.
+ *
+ * @param array $node The current node
+ * @param string $bundle The content type of nodes to return
+ * @param bool $top_level_only
+ * @return array An array of node objects
  */
-function cob_node_programs(array &$node)
+function cob_node_references(array &$node, $bundle, $top_level_only=false)
 {
-	$bundle = $node['#bundle'];
+	$current_type = $node['#bundle'];
 
-	$sql = "select l.entity_id as program_id
-			from field_data_field_$bundle l
-			left join field_data_field_program p on (p.entity_type='node' and l.entity_id=p.entity_id)
-			where l.field_{$bundle}_target_id=?
-			and l.bundle='program'
-			and p.field_program_target_id is null";
+	$sql = "select l.entity_id as {$bundle}_id
+			from field_data_field_$current_type l
+			left join field_data_field_$bundle p on (p.entity_type='node' and l.entity_id=p.entity_id)
+			where l.field_{$current_type}_target_id=?
+			and l.bundle='$bundle'}";
+	if ($top_level_only) {
+		$sql.=" and p.field_{$bundle}_target_id is null";
+	}
+
 	$results = db_query($sql, array($node['#node']->nid));
 
 	$programs = array();
