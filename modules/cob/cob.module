@@ -24,15 +24,22 @@ function cob_node_siblings(array &$node)
 	}
 }
 
-function cob_location_programs($location_node_id)
+/**
+ * Returns the top level programs that reference a node
+ *
+ * @param array $node
+ */
+function cob_node_programs(array &$node)
 {
+	$bundle = $node['#bundle'];
+
 	$sql = "select l.entity_id as program_id
-			from field_data_field_location l
+			from field_data_field_$bundle l
 			left join field_data_field_program p on (p.entity_type='node' and l.entity_id=p.entity_id)
-			where l.field_location_target_id=?
+			where l.field_{$bundle}_target_id=?
 			and l.bundle='program'
 			and p.field_program_target_id is null";
-	$results = db_query($sql, array($location_node_id));
+	$results = db_query($sql, array($node['#node']->nid));
 
 	$programs = array();
 	foreach ($results as $row) {
@@ -41,7 +48,6 @@ function cob_location_programs($location_node_id)
 	$nodes = node_load_multiple($programs);
 	return $nodes;
 }
-
 
 /**
  * Returns a parent node that has a logo
