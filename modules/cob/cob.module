@@ -44,21 +44,23 @@ function cob_node_siblings(array &$node)
 function cob_node_references(array &$node, $bundle, $top_level_only=false)
 {
 	$current_type = $node['#bundle'];
+	$field_data_table = "field_data_field_$current_type";
+	if (db_table_exists($field_data_table)) {
+		$sql = "select l.entity_id as {$bundle}_id from $field_data_table l";
+		if ($top_level_only) { $sql.=" left join field_data_field_$bundle p on (p.entity_type='node' and l.entity_id=p.entity_id)"; }
+		$sql.= " where l.field_{$current_type}_target_id=? and l.bundle='$bundle'}";
+		if ($top_level_only) { $sql.=" and p.field_{$bundle}_target_id is null"; }
 
-	$sql = "select l.entity_id as {$bundle}_id from field_data_field_$current_type l";
-	if ($top_level_only) { $sql.=" left join field_data_field_$bundle p on (p.entity_type='node' and l.entity_id=p.entity_id)"; }
-	$sql.= " where l.field_{$current_type}_target_id=? and l.bundle='$bundle'}";
-	if ($top_level_only) { $sql.=" and p.field_{$bundle}_target_id is null"; }
+		$results = db_query($sql, array($node['#node']->nid));
 
-	$results = db_query($sql, array($node['#node']->nid));
-
-	$programs = array();
-	foreach ($results as $row) {
-		$id = "{$bundle}_id";
-		$programs[] = $row->$id;
+		$programs = array();
+		foreach ($results as $row) {
+			$id = "{$bundle}_id";
+			$programs[] = $row->$id;
+		}
+		$nodes = node_load_multiple($programs);
+		return $nodes;
 	}
-	$nodes = node_load_multiple($programs);
-	return $nodes;
 }
 
 /**
