@@ -46,21 +46,45 @@ function cob_node_references(array &$node, $bundle, $top_level_only=false)
 	$current_type = $node['#bundle'];
 	$field_data_table = "field_data_field_$current_type";
 	if (db_table_exists($field_data_table)) {
-		$sql = "select l.entity_id as {$bundle}_id from $field_data_table l";
+		$sql = "select l.entity_id as nid from $field_data_table l";
 		if ($top_level_only) { $sql.=" left join field_data_field_$bundle p on (p.entity_type='node' and l.entity_id=p.entity_id)"; }
 		$sql.= " where l.field_{$current_type}_target_id=? and l.bundle='$bundle'}";
 		if ($top_level_only) { $sql.=" and p.field_{$bundle}_target_id is null"; }
 
 		$results = db_query($sql, array($node['#node']->nid));
 
-		$programs = array();
-		foreach ($results as $row) {
-			$id = "{$bundle}_id";
-			$programs[] = $row->$id;
-		}
-		$nodes = node_load_multiple($programs);
-		return $nodes;
+		return cob_load_nodes_from_results($results);
 	}
+}
+
+function cob_nodes_related_by_topics (array &$node, $bundle)
+{
+	$current_type = $node['#bundle'];
+
+	$sql = "select r.entity_id as nid
+			from field_data_field_topics t
+			join field_data_field_topics r using (field_topics_tid)
+			where t.bundle=:current_type and t.entity_id=:nid
+			and r.entity_id!=:rnid
+			and r.bundle=:bundle";
+	$results = db_query($sql, [
+		'current_type'=>$current_type,
+		'nid' =>$node['#node']->nid,
+		'rnid'=>$node['#node']->nid,
+		'bundle'=>$bundle
+	]);
+
+	return cob_load_nodes_from_results($results);
+}
+
+function cob_load_nodes_from_results($results)
+{
+	$nids = array();
+	foreach ($results as $row) {
+		$nids[] = $row->nid;
+	}
+	$nodes = node_load_multiple($nids);
+	return $nodes;
 }
 
 /**
