@@ -57,6 +57,11 @@ function cob_node_references(array &$node, $bundle, $top_level_only=false)
 	}
 }
 
+/**
+ * @param array $node The current node
+ * @param string $bundle Then content type of nodes to return
+ * @return array An array of node objects
+ */
 function cob_nodes_related_by_topics (array &$node, $bundle)
 {
 	$current_type = $node['#bundle'];
@@ -77,6 +82,12 @@ function cob_nodes_related_by_topics (array &$node, $bundle)
 	return cob_load_nodes_from_results($results);
 }
 
+/**
+ * Hydrates node objects from database results
+ *
+ * @param object $results A db_query object that has results
+ * @return array An array of node objects
+ */
 function cob_load_nodes_from_results($results)
 {
 	$nids = array();
