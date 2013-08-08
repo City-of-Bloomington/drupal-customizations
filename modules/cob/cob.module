@@ -16,7 +16,7 @@ function cob_node_siblings(array &$node)
 				->entityCondition('bundle', $node['#bundle'])
 				->propertyCondition('status', 1)
 				->propertyCondition('nid', $node['#node']->nid, '<>')
-				->fieldCondition('field_program', 'target_id', $pid);
+				->fieldCondition($field, 'target_id', $pid);
 		$results = $query->execute();
 		if (!empty($results['node'])) {
 			return node_load_multiple(array_keys($results['node']));
