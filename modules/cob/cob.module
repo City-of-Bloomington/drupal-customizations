@@ -43,8 +43,14 @@ function cob_node_siblings(array &$node)
  */
 function cob_node_references(array &$node, $bundle, $top_level_only=false)
 {
+	// All the rest of the field references can only reference one node
+	// However, nodes that reference topics can link to unlimited topics
+	// So, the fieldname for the topic references is plural
 	$current_type = $node['#bundle'];
+	if ($current_type == 'topic') { $current_type.= 's'; }
+
 	$field_data_table = "field_data_field_$current_type";
+
 	if (db_table_exists($field_data_table)) {
 		$sql = "select l.entity_id as nid from $field_data_table l";
 		if ($top_level_only) { $sql.=" left join field_data_field_$bundle p on (p.entity_type='node' and l.entity_id=p.entity_id)"; }
@@ -68,7 +74,7 @@ function cob_nodes_related_by_topics (array &$node, $bundle)
 
 	$sql = "select r.entity_id as nid
 			from field_data_field_topics t
-			join field_data_field_topics r using (field_topics_tid)
+			join field_data_field_topics r using (field_topics_target_id)
 			where t.bundle=:current_type and t.entity_id=:nid
 			and r.entity_id!=:rnid
 			and r.bundle=:bundle";
