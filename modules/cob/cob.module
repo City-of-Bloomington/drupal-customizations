@@ -6,13 +6,21 @@
  */
 function cob_node_siblings(array &$node)
 {
-	$field = 'field_'.$node['#bundle'];
+	if ($node['#bundle'] == 'location') {
+		// Location parents are "Location Group" nodes
+		$field = 'field_location_group';
+	}
+	else {
+		// Normally, parents are of the same content type
+		// as the current node
+		$field = 'field_'.$node['#bundle'];
+	}
 
 	if (isset(   $node[$field]['#items'][0]['target_id'])) {
 		$pid   = $node[$field]['#items'][0]['target_id'];
 		$query = new EntityFieldQuery();
 
-		$query->entityCondition('entity_type', 'node')
+		$query  ->entityCondition('entity_type', 'node')
 				->entityCondition('bundle', $node['#bundle'])
 				->propertyCondition('status', 1)
 				->propertyCondition('nid', $node['#node']->nid, '<>')
