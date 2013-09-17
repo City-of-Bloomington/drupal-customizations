@@ -44,12 +44,14 @@ function cob_node_siblings(array &$node)
  * that content type.  By default, nodes from any level in the
  * hiearchy will be returned.
  *
- * @param array $node The current node
+ * @param array  $node   The current node
  * @param string $bundle The content type of nodes to return
- * @param bool $top_level_only
+ * @param string $order  The ordering for returned nodes (alphabetical, chronological)
+ * @param int    $limit  How many nodes to return
+ * @param bool   $top_level_only
  * @return array An array of node objects
  */
-function cob_node_references(array &$node, $bundle, $top_level_only=false)
+function cob_node_references(array &$node, $bundle, $top_level_only=false, $order=null, $limit=null)
 {
 	// All the rest of the field references can only reference one node
 	// However, nodes that reference topics can link to unlimited topics
@@ -57,13 +59,39 @@ function cob_node_references(array &$node, $bundle, $top_level_only=false)
 	$current_type = $node['#bundle'];
 	if ($current_type == 'topic') { $current_type.= 's'; }
 
-	$field_data_table = "field_data_field_$current_type";
+	$field_table  = "field_data_field_$current_type";
+	$bundle_table = "field_data_field_$bundle";
 
-	if (db_table_exists($field_data_table)) {
-		$sql = "select l.entity_id as nid from $field_data_table l";
-		if ($top_level_only) { $sql.=" left join field_data_field_$bundle p on (p.entity_type='node' and l.entity_id=p.entity_id)"; }
-		$sql.= " where l.field_{$current_type}_target_id=? and l.bundle='$bundle'}";
-		if ($top_level_only) { $sql.=" and p.field_{$bundle}_target_id is null"; }
+	$bundle_table_exists = db_table_exists($bundle_table);
+
+	if (db_table_exists($field_table)) {
+		$sql =     "select referencing.entity_id as nid from $field_table referencing
+					join node on referencing.entity_id=node.nid";
+		if ($top_level_only && $bundle_table_exists) {
+			$sql.= " left join $bundle_table parent
+					 on (parent.entity_type='node' and referencing.entity_id=parent.entity_id)";
+		}
+		$sql.=     " where referencing.field_{$current_type}_target_id=?
+					   and referencing.bundle='$bundle'}
+					   and node.status=1";
+		if ($top_level_only && $bundle_table_exists) {
+			$sql.= "   and parent.field_{$bundle}_target_id is null";
+		}
+		if ($order) {
+			switch ($order) {
+				case 'alphabetical':
+					$sql.= " order by node.title";
+				break;
+
+				case 'chronological':
+					$sql.= " order by node.created desc";
+				break;
+			}
+		}
+		$limit = (int)$limit;
+		if ($limit) {
+			$sql.= " limit $limit";
+		}
 
 		$results = db_query($sql, array($node['#node']->nid));
 
@@ -80,12 +108,14 @@ function cob_nodes_related_by_topics (array &$node, $bundle)
 {
 	$current_type = $node['#bundle'];
 
-	$sql = "select r.entity_id as nid
-			from field_data_field_topics t
-			join field_data_field_topics r using (field_topics_target_id)
-			where t.bundle=:current_type and t.entity_id=:nid
-			and r.entity_id!=:rnid
-			and r.bundle=:bundle";
+	$sql = "select referencing.entity_id as nid
+			from field_data_field_topics topic
+			join field_data_field_topics referencing using (field_topics_target_id)
+			join node on referencing.entity_id=node.nid
+			where topic.bundle=:current_type and topic.entity_id=:nid
+			  and referencing.entity_id!=:rnid
+			  and referencing.bundle=:bundle
+			  and node.status=1";
 	$results = db_query($sql, [
 		'current_type'=>$current_type,
 		'nid' =>$node['#node']->nid,
