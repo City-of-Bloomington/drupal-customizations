@@ -35,14 +35,12 @@ function template_preprocess_calendar_month(&$vars) {
   $month_rows = $rows;
   foreach ($rows as $weekno => $row) {
     foreach ($row as $day => $data) {
+       // If this cell is already rendered, like the week number column, move to
+      // the next item.
+      if (!is_array($data)) {
+         continue;
+       }
       $cell = $data['data'];
-
-      // If this cell is already rendered, like the weekno column,
-      // move to the next item.
-      if (!is_array($cell)) {
-        $month_rows[$weekno][$day]['data'] = $cell;
-        continue;
-      }
       $data = $cell['datebox'];
       if ($cell['empty']) {
         $data .= $cell['empty'];
