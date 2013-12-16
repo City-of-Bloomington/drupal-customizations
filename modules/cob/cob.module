@@ -66,17 +66,10 @@ function cob_node_references(array &$node, $bundle, $top_level_only=false, $orde
 
 	if (db_table_exists($field_table)) {
 		$sql =     "select referencing.entity_id as nid from $field_table referencing
-					join node on referencing.entity_id=node.nid";
-		if ($top_level_only && $bundle_table_exists) {
-			$sql.= " left join $bundle_table parent
-					 on (parent.entity_type='node' and referencing.entity_id=parent.entity_id)";
-		}
-		$sql.=     " where referencing.field_{$current_type}_target_id=?
+					  join node on referencing.entity_id=node.nid
+					 where referencing.field_{$current_type}_target_id=?
 					   and referencing.bundle='$bundle'}
 					   and node.status=1";
-		if ($top_level_only && $bundle_table_exists) {
-			$sql.= "   and parent.field_{$bundle}_target_id is null";
-		}
 		if ($order) {
 			switch ($order) {
 				case 'alphabetical':
@@ -94,9 +87,53 @@ function cob_node_references(array &$node, $bundle, $top_level_only=false, $orde
 		}
 
 		$results = db_query($sql, array($node['#node']->nid));
+		if ($top_level_only) {
+			# Filter our references that have ancestors that also reference the current node
+			$r = $results->fetchAllAssoc('nid');
+			foreach (array_keys($r) as $reference_id) {
+				if (cob_node_reference_has_parent($node['#node']->nid, $reference_id, $bundle, $current_type)) {
+					unset($r[$reference_id]);
+				}
+			}
+			$results = $r;
+		}
 
 		return cob_load_nodes_from_results($results);
 	}
+}
+
+/**
+ * Check for an ancestor that also references the current node
+ *
+ * Checks to see if a node-reference has an ancestor that also references
+ * the same current node.  This assumes that you have already called
+ * cob_node_references to get the full list of nodes that reference the
+ * current node.
+ *
+ * Any ancestor that references the current node should be in the results
+ * from that function.  So, we just need to iterate over the results
+ * @return bool
+ */
+function cob_node_reference_has_parent($current_id, $child_id, $parent_bundle, $current_bundle )
+{
+	$sql = "select field_{$parent_bundle}_target_id as parent_id,r.field_{$current_bundle}_target_id as target
+			from field_data_field_{$parent_bundle} p
+			left join field_data_field_{$current_bundle} r on p.field_{$parent_bundle}_target_id=r.entity_id and r.field_{$current_bundle}_target_id=?
+			where p.entity_id=?";
+	$results = db_query($sql, array($current_id, $child_id));
+	$r = $results->fetchAll();
+	if (isset($r[0])) {
+		//echo "Found a parent for this {$parent_bundle}\n";
+		if ($r[0]->target) {
+			//echo "Parent references the current node\n";
+			return true;
+		}
+		else {
+			//echo "We should check for more ancenstors\n";
+			return cob_node_reference_has_parent($current_id, $r[0]->parent_id, $parent_bundle, $current_bundle);
+		}
+	}
+	//echo "No more parents found\n";
 }
 
 /**
