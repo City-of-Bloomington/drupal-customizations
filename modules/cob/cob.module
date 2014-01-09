@@ -203,3 +203,27 @@ function cob_logo_parent($node_id)
 		}
 	}
 }
+
+
+/**
+ * @param int $program_node_id
+ * @return db_results
+ */
+function cob_upcoming_events($program_node_id=null)
+{
+	$sql = "select
+				dates.entity_id as event_node_id,
+				min(dates.field_date_value) as date,
+				node.title,
+				program.field_program_target_id as program_node_id
+			from field_data_field_date dates
+			join node on dates.entity_id=node.nid
+			left join field_data_field_program program on dates.entity_id=program.entity_id
+			where dates.field_date_value >= now()";
+	if ($program_node_id) {
+		$sql.= ' and program.field_program_target_id='.(int)$program_node_id;
+	}
+	$sql.= " group by dates.entity_id order by date";
+
+	return db_query($sql);
+}
