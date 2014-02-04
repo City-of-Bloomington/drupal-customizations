@@ -227,3 +227,40 @@ function cob_upcoming_events($program_node_id=null)
 
 	return db_query($sql);
 }
+
+/**
+ * @implements hook_filter_info()
+ */
+function cob_filter_info()
+{
+	return [
+		'ureport'=>[
+			'title'=>'Open311 client syntax',
+			'description'=>'Embeds the open311-proxy client',
+			'process callback'=>'_cob_ureport_filter'
+		]
+	];
+}
+
+function _cob_ureport_filter($text, $filter, $format, $langcode, $cache, $cache_id)
+{
+	$http = $_SERVER['SERVER_PORT']==443 ? 'https': 'http';
+	$open311Proxy = "$http://bloomington.in.gov/open311-proxy";
+
+	$ureportMarkup = "
+	<script type=\"text/javascript\">
+		function handleHeightResponse(e) {
+			document.getElementById('open311Client').height = parseInt(e.data + 60);
+		}
+		if (window.addEventListener) {
+			window.addEventListener('message', handleHeightResponse, false);
+		}
+	</script>
+	<iframe id=\"open311Client\"
+			src=\"$open311Proxy/embed?\${1}\"
+			height=\"720\"
+			onload=\"this.contentWindow.postMessage('height','$open311Proxy');\"></iframe>
+	";
+
+	return preg_replace('/{open311:(.+)}/', $ureportMarkup, $text);
+}
