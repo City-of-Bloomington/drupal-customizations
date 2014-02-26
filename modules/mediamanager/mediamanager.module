@@ -13,8 +13,31 @@ function mediamanager_admin_form()
 			'#title'         => 'Media Manager URL',
 			'#description'   => 'The url of your installed Media Manager web application',
 			'#required'      => true
+		],
+		'mediamanager_sizes'=>[
+			'#type'          => 'textarea',
+			'#rows'          => 6,
+			'#cols'          => 60,
+			'#default_value' => variable_get('mediamanager_sizes'),
+			'#title'         => 'Media Manager Sizes',
+			'#description'   => 'The names images sizes for your site'
 		]
 	]);
+}
+
+function mediamanager_admin_validate($form, &$form_state)
+{
+	$string = $form_state['values']['mediamanager_sizes'];
+	if (!empty(trim($string))) {
+		$sizes = json_decode($string);
+		if ($sizes) {
+			$form_state['values']['mediamanager_sizes'] = json_encode($sizes, JSON_PRETTY_PRINT);
+		}
+		else {
+			$form_state['values']['mediamanager_sizes'] = '';
+			form_set_error('mediamanager_sizes', 'Invalid JSON for size definition');
+		}
+	}
 }
 
 function mediamanager_menu()
@@ -53,20 +76,6 @@ function mediamanager_field_widget_info()
 	];
 }
 
-function mediamanager_field_settings_form($field, $instance, $has_data)
-{
-	return [
-		'size' => [
-			'#type'             => 'textfield',
-			'#title'            => 'Image Size',
-			'#default_value'    => !empty($field['settings']['size']) ? $field['settings']['size'] : null,
-			'#required'         => false,
-			'#element_validate' => ['element_validate_integer_positive'],
-			'#description'      => 'The image size to be used when images are rendered in content.  If no size is given, the full-sized original image will be used.'
-		]
-	];
-}
-
 function mediamanager_field_widget_form(&$form, &$form_state, &$field, &$instance, &$langcode, &$items, &$delta, &$element)
 {
 	if ($instance['widget']['type'] == 'mediamanager_mediaChooser') {
@@ -91,10 +100,44 @@ function mediamanager_field_formatter_info()
 {
 	return [
 		'mediamanager_mediaFormatter' => [
-			'label' => t('Default'),
-			'field types' => ['mediamanager']
+			'label'       => t('Default'),
+			'field types' => ['mediamanager'],
+			'settings'    => ['size'=>'']
 		]
 	];
+}
+
+function mediamanager_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state)
+{
+	$display = $instance['display'][$view_mode];
+	$settings = $display['settings'];
+
+	switch ($display['type']) {
+		case 'mediamanager_mediaFormatter':
+			$options = [];
+			$json = json_decode(variable_get('mediamanager_sizes'));
+			if ($json) {
+				foreach ($json as $name=>$size) {
+					$options[$name] = $name;
+				}
+			}
+
+			$form['size'] = [
+				'#title' => '',
+				'#type' => 'select',
+				'#empty_option' => t('None (original image)'),
+				'#default_value' => $settings['size'],
+				'#options'=> $options
+			];
+		break;
+	}
+	return $form;
+}
+
+function mediamanager_field_formatter_settings_summary($field, $instance, $view_mode)
+{
+	$settings = $instance['display'][$view_mode]['settings'];
+	return empty($settings['size']) ? 'Original Image' : 'Media Size: '.$settings['size'];
 }
 
 function mediamanager_field_formatter_view($type, $entity, $field, $instance, $lang, $items, $display)
@@ -113,7 +156,7 @@ function mediamanager_field_formatter_view($type, $entity, $field, $instance, $l
 				$element[$delta] = [
 					'#theme' => 'mediamanager_media',
 					'#media' => $media,
-					'#size'  => !empty($field['settings']['size']) ? $field['settings']['size'] : null
+					'#size'  => $display['settings']['size']
 				];
 			}
 		break;
@@ -136,8 +179,11 @@ function theme_mediamanager_media($var)
 	$d = date('Y/n/j', strtotime($var['media']->uploaded));
 
 	if ($var['size']) {
+		$json = json_decode(variable_get('mediamanager_sizes'));
+		$size = $json->$var['size'];
+
 		$f = explode('.', $var['media']->internalFilename);
-		$var['path'] = "$mediamanager_url/m/$d/$var[size]/$f[0].png";
+		$var['path'] = "$mediamanager_url/m/$d/$size/$f[0].png";
 	}
 	else {
 		$var['path'] = "$mediamanager_url/m/$d/{$var['media']->filename}";
