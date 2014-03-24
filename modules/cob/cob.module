@@ -234,10 +234,15 @@ function cob_upcoming_events($program_node_id=null)
 function cob_filter_info()
 {
 	return [
-		'ureport'=>[
-			'title'=>'Open311 client syntax',
-			'description'=>'Embeds the open311-proxy client',
-			'process callback'=>'_cob_ureport_filter'
+		'ureport' => [
+			'title'            => 'Open311 client syntax',
+			'description'      => 'Embeds the open311-proxy client',
+			'process callback' => '_cob_ureport_filter'
+		],
+		'toc' => [
+			'title'            => 'Table of Contents',
+			'description'      => 'Converts {toc} into a set of anchor links to header tags in the content',
+			'process callback' => '_cob_toc_filter'
 		]
 	];
 }
@@ -263,4 +268,94 @@ function _cob_ureport_filter($text, $filter, $format, $langcode, $cache, $cache_
 	";
 
 	return preg_replace('/{open311:(.+)}/', $ureportMarkup, $text);
+}
+
+function _cob_toc_filter($text, $filter, $format, $langcode, $cache, $cache_id)
+{
+	$parameters = [];
+
+	if (preg_match('/\{toc\}/', $text, $matches)) {
+        $toc = _cob_create_toc($text, 2, 6);
+        return preg_replace('/\{toc\}/', $toc['toc'], $toc['content']);
+	}
+	return $text;
+}
+
+function _cob_create_toc($content, $min, $max) {
+	$min = (int)$min;
+	$max = (int)$max;
+
+	$anchors = [];
+	$toc 	 = '<div class="toc"><div class="hd">Table of Contents</div><ol>';
+	$i 		 = 0;
+
+	preg_match_all( "/<h([$min-$max])(.*)>([^<]+)<\/h[$min-$max]>/i", $content, $matches, PREG_SET_ORDER );
+	foreach ($matches as $heading) {
+		$lvl        = $heading[1];
+		$attributes = $heading[2];
+		$title      = $heading[3];
+
+		if ($i == 0) { $startlvl = $lvl; }
+
+		$ret = preg_match( '/id=[\'|"](.*)?[\'|"]/i', stripslashes($attributes), $anchor);
+		if ($ret && $anchor[1] != '') {
+			$anchor = stripslashes($anchor[1]);
+			$add_id = false;
+		} else {
+			$anchor = preg_replace('/\s+/', '-', preg_replace('/[^a-z\s]/', '', strtolower($title)));
+			$add_id = true;
+		}
+
+		if (!in_array($anchor, $anchors)) { $anchors[] = $anchor; }
+		else {
+			$orig_anchor = $anchor;
+			$i = 2;
+			while (in_array($anchor, $anchors)) {
+				$anchor = $orig_anchor.'-'.$i;
+				$i++;
+			}
+			$anchors[] = $anchor;
+		}
+
+		if ($add_id) {
+			$content = substr_replace(
+				$content,
+				"<h$lvl id=\"$anchor\"$attributes>$title</h$lvl>",
+				strpos($content, $heading[0]),
+				strlen($heading[0])
+			);
+		}
+
+		$title = trim(strip_tags($title));
+
+		if ($i > 0) {
+			if ($prevlvl < $lvl) { $toc .= "<ol>"; }
+			else if ($prevlvl > $lvl) {
+				$toc .= '</li>';
+				while ($prevlvl > $lvl) {
+					$toc .= "</ol></li>";
+					$prevlvl--;
+				}
+			}
+			else { $toc .= '</li>'; }
+		}
+
+		$j = 0;
+		$toc .= "<li><a href=\"#$anchor\">$title</a>";
+		$prevlvl = $lvl;
+
+		$i++;
+	}
+
+	unset($anchors);
+
+	while ($lvl > $startlvl) {
+		$toc .= "</ol>";
+		$lvl--;
+	}
+
+	$toc .= '</li>';
+	$toc .= '</ol></div>';
+
+	return ['toc'=>$toc, 'content'=>$content];
 }
