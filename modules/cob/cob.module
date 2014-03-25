@@ -164,6 +164,25 @@ function cob_nodes_related_by_topics (array &$node, $bundle)
 }
 
 /**
+ * @param string $type The type of nodes to return
+ * @param int $limit
+ * @return array An array of node objects
+ */
+function cob_nodes_recent($type=null, $limit=10)
+{
+	$limit = (int)$limit;
+	if ($type) {
+		$sql = "select nid from node where status=1 and type=:type order by created desc limit $limit";
+		$results = db_query($sql, ['type'=>$type]);
+	}
+	else {
+		$sql = "select nid from node where status=1 order by created desc limit $limit";
+		$results = db_query($sql);
+	}
+	return cob_load_nodes_from_results($results);
+}
+
+/**
  * Hydrates node objects from database results
  *
  * @param object $results A db_query object that has results
