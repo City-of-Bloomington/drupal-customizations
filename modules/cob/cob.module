@@ -268,8 +268,7 @@ function cob_filter_info()
 
 function _cob_ureport_filter($text, $filter, $format, $langcode, $cache, $cache_id)
 {
-	$http = $_SERVER['SERVER_PORT']==443 ? 'https': 'http';
-	$open311Proxy = "$http://bloomington.in.gov/open311-proxy";
+	$open311Proxy = 'https://bloomington.in.gov/open311-proxy';
 
 	$ureportMarkup = "
 	<script type=\"text/javascript\">
