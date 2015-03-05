@@ -377,14 +377,3 @@ function _cob_create_toc($content, $min, $max) {
 
 	return ['toc'=>$toc, 'content'=>$content];
 }
-
-/**
- * @param int $id The committee id
- * @returns JSON The json response from civic-legislation
- */
-function cob_committee_data($id)
-{
-	$url = "http://apps.bloomington.in.gov/committee_manager/committees/view?format=json;committee_id=$id";
-	$response = drupal_http_request($url);
-	return json_decode($response->data);
-}
