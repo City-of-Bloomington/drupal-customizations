@@ -115,7 +115,7 @@
             ";
 
             $p    = current_path();
-            $cc   = ['attributes'=>['class'=>['current']]];
+            $cc   = ['attributes'=>['class'=>['cob-ext-current']]];
             $attr = count(explode('/', $p))==2 ? $cc : [];
             echo l('About', "node/{$node->nid}", $attr);
 
@@ -153,7 +153,6 @@
 ?>
 
 <?php echo render($page['content']); ?>
-</main>
 <footer class="cob-footer">
     <div class="cob-footer-container">
         <?php echo $feed_icons; ?>
