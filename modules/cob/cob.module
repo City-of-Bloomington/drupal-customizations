@@ -35,6 +35,10 @@ function cob_node_siblings(array &$node)
 /**
  * Returns nodes of the given type that refer to the given node
  *
+ * Important:
+ * This relies on having set up entity reference fields
+ * that exactly match the machine names of content types.
+ *
  * Pass in the current node and specify what type of related nodes
  * you're looking for.  Content type for $bundle must have a
  * field reference to the content type of the current node.
@@ -56,13 +60,12 @@ function cob_node_references(array &$node, $bundle, $top_level_only=false, $orde
 	// All the rest of the field references can only reference one node
 	// However, nodes that reference topics can link to unlimited topics
 	// So, the fieldname for the topic references is plural
-	$current_type = $node['#bundle'];
+	$nid          = $node['nid'];
+	$current_type = $node['type'];
+
 	if ($current_type == 'topic') { $current_type.= 's'; }
 
 	$field_table  = "field_data_field_$current_type";
-	$bundle_table = "field_data_field_$bundle";
-
-	$bundle_table_exists = db_table_exists($bundle_table);
 
 	if (db_table_exists($field_table)) {
 		$sql =     "select referencing.entity_id as nid from $field_table referencing
@@ -86,12 +89,12 @@ function cob_node_references(array &$node, $bundle, $top_level_only=false, $orde
 			$sql.= " limit $limit";
 		}
 
-		$results = db_query($sql, array($node['#node']->nid));
+		$results = db_query($sql, [$nid]);
 		if ($top_level_only) {
 			# Filter our references that have ancestors that also reference the current node
 			$r = $results->fetchAllAssoc('nid');
 			foreach (array_keys($r) as $reference_id) {
-				if (cob_node_reference_has_parent($node['#node']->nid, $reference_id, $bundle, $current_type)) {
+				if (cob_node_reference_has_parent($nid, $reference_id, $bundle, $current_type)) {
 					unset($r[$reference_id]);
 				}
 			}
