@@ -71,7 +71,7 @@ function cob_node_references(array &$node, $bundle, $top_level_only=false, $orde
 		$sql =     "select referencing.entity_id as nid from $field_table referencing
 					  join node on referencing.entity_id=node.nid
 					 where referencing.field_{$current_type}_target_id=?
-					   and referencing.bundle='$bundle'}
+					   and referencing.bundle='$bundle'
 					   and node.status=1";
 		if ($order) {
 			switch ($order) {
