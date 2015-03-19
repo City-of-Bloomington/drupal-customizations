@@ -25,7 +25,8 @@ function cob_preprocess_page(&$vars)
 
 function cob_preprocess_node(&$vars)
 {
-    $vars['press_releases'] = cob_node_references($vars['elements'], 'press_release', false, 'chronological', 2);
+    $vars['press_releases']     = cob_node_references($vars, 'press_release',      false, 'chronological', 2);
+	$vars['boards_commissions'] = cob_node_references($vars, 'board_commission', false, 'alphabetical');
 }
 
 /**

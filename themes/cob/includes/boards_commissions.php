@@ -6,20 +6,20 @@
  * use this block when viewing a location.  This will show all the
  * departments that point to the current location.
  *
- * @copyright 2013 City of Bloomington, Indiana
+ * @copyright 2015 City of Bloomington, Indiana
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
- * @author Cliff Ingham <inghamn@bloomington.in.gov>
- * @param array $data['boards']
+ * @author Dan Hiester <hiesterd@bloomington.in.gov>
+ * @param array $data['boards_commissions']
  */
-echo "
-<div class=\"block\">
-	<h2>Boards</h2>
-	<ul>
-";
-	foreach ($data['boards'] as $b) {
-		echo '<li>'.l($b->title, "node/{$b->nid}").'</li>';
+?>
+<section class="cob-boardsCommissionsWidget block">
+	<h2>Boards &amp; Commissions</h2>
+	<div class="cob-boardsCommissionsWidget-listing">
+<?php
+	foreach ($data['boards_commissions'] as $node) {
+		$n = node_view($node, 'teaser');
+		echo render($n);
 	}
-echo "
-	</ul>
-</div>
-";
+?>
+	</div>
+</section>
