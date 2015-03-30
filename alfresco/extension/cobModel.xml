@@ -2,8 +2,8 @@
 <model xmlns="http://www.alfresco.org/model/dictionary/1.0"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="modelSchema.xsd"
-       name="cob:meetingmodel">
-    <description>Files pertaining to meetings for boards or commissions</description>
+       name="cob:cobmodel">
+    <description>COB documents published to the city website</description>
     <author>Cliff Ingham</author>
     <version>0.1</version>
 
@@ -17,6 +17,33 @@
     </namespaces>
 
     <types>
+        <type name="cob:websitedocument">
+            <title>Website Document</title>
+            <parent>cm:content</parent>
+            <mandatory-aspects>
+                <aspect>cm:generalclassifiable</aspect>
+            </mandatory-aspects>
+        </type>
+
+        <type name="cob:form">
+            <title>Form</title>
+            <parent>cob:websitedocument</parent>
+            <properties>
+                <property name="cob:email">
+                    <title>Email</title>
+                    <type>d:text</type>
+                </property>
+                <property name="cob:phone">
+                    <title>Phone</title>
+                    <type>d:text</type>
+                </property>
+                <property name="cob:fax">
+                    <title>Fax</title>
+                    <type>d:text</type>
+                </property>
+            </properties>
+        </type>
+
         <type name="cob:meetingfile">
             <title>Meeting File</title>
             <parent>cm:content</parent>
@@ -42,6 +69,11 @@
 
         <type name="cob:minutes">
             <title>Minutes</title>
+            <parent>cob:meetingfile</parent>
+        </type>
+
+        <type name="cob:packet">
+            <title>Packet</title>
             <parent>cob:meetingfile</parent>
         </type>
     </types>
