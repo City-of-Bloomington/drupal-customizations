@@ -4,4 +4,3 @@ core = 7.x
 version = 7.x-0.2
 dependencies[] = markdown
 dependencies[] = filter
-dependencies[] = libraries

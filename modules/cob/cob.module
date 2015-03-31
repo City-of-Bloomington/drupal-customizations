@@ -4,9 +4,6 @@
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
  * @author Cliff Ingham <inghamn@bloomington.in.gov>
  */
-require_once __DIR__.'/cob.admin.inc';
-require_once __DIR__.'/cob.cmis.inc';
-
 function cob_node_siblings(array &$node)
 {
 	if ($node['#bundle'] == 'location') {
