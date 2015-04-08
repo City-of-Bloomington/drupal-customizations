@@ -338,15 +338,31 @@ function _cob_toc_filter($text, $filter, $format, $langcode, $cache, $cache_id)
 	return $text;
 }
 
-function _cob_create_toc($content, $min, $max) {
+/**
+ * Generates markup for table of contents anchors in the provided content
+ *
+ * The input content is modified.  We have to add ID attributes to the H
+ * tags we are going to anchor to.
+ * This function will return the HTML for the TOC as well as
+ * the modified HTML based on the original content provided.
+ *
+ * @param string $content HTML content to create a TOC for
+ * @param int $min The minimum H value to look for
+ * @param int $max The maximum H value to look for
+ * @return array [toc=>$htmlstring, content=>$htmlstring]
+ */
+function _cob_create_toc($content, $min=1, $max=6) {
 	$min = (int)$min;
 	$max = (int)$max;
 
 	$anchors = [];
-	$toc 	 = '<div class="toc"><div class="hd">Table of Contents</div><ol>';
+	$toc 	 = '<ol>';
 	$i 		 = 0;
 
 	preg_match_all( "/<h([$min-$max])(.*)>([^<]+)<\/h[$min-$max]>/i", $content, $matches, PREG_SET_ORDER );
+
+	if (!count($matches)) { return ['toc'=>null, 'content'=>$content]; }
+
 	foreach ($matches as $heading) {
 		$lvl        = $heading[1];
 		$attributes = $heading[2];
@@ -412,7 +428,7 @@ function _cob_create_toc($content, $min, $max) {
 	}
 
 	$toc .= '</li>';
-	$toc .= '</ol></div>';
+	$toc .= '</ol>';
 
 	return ['toc'=>$toc, 'content'=>$content];
 }
