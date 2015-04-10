@@ -4,6 +4,28 @@
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
  * @author Cliff Ingham <inghamn@bloomington.in.gov>
  */
+/**
+ * Fetches useful book information
+ *
+ * Looks up the parent node information for a book.
+ *
+ * @param array $book The book information from the node object
+ * @return stdClass
+ */
+function cob_book_info(&$book)
+{
+    $sql = "select b.nid, n.type, n.title, c.field_category_tid
+            from book b
+            join node n on b.nid=n.nid
+            join field_data_field_category c on b.nid=c.entity_id
+            where b.mlid=?";
+    $query = db_query($sql, [$book['plid']]);
+    $results = $query->fetchAll();
+    if ($results) {
+        return current($results);
+    }
+}
+
 function cob_node_siblings(array &$node)
 {
 	if ($node['#bundle'] == 'location') {
