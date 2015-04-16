@@ -5,6 +5,22 @@
  * @author Cliff Ingham <inghamn@bloomington.in.gov>
  */
 /**
+ * Override other module's theme information
+ *
+ * We're using this to use our own template for attachments.
+ * Attachments are handled by the cmisro module (which talks
+ * to Alfresco).
+ *
+ * @implements hook_theme_registry_alter
+ * @param array $theme_registry The entire cache of theme registry information, post-processing.
+ * @see https://api.drupal.org/api/drupal/modules!system!system.api.php/function/hook_theme_registry_alter/7
+ */
+function cob_theme_registry_alter(&$theme_registry)
+{
+    $theme_registry['cmisro_object']['path'] = drupal_get_path('theme', 'cob').'/templates';
+}
+
+/**
  * Fetches useful book information
  *
  * Looks up the parent node information for a book.
