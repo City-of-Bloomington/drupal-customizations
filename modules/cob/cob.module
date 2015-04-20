@@ -42,6 +42,28 @@ function cob_book_info(&$book)
     }
 }
 
+/**
+ * Return nodes attached to a term
+ *
+ * This is a replacement for the official taxonomy_select_nodes function
+ * The official function does not support ordering alphabetically
+ *
+ * @override taxonomy_select_nodes
+ * @see https://api.drupal.org/api/drupal/modules!taxonomy!taxonomy.module/function/taxonomy_select_nodes/7
+ */
+function cob_taxonomy_nodes($tid)
+{
+    $sql = "select t.nid from taxonomy_index t
+            join node n on t.nid=n.nid
+            where t.tid=?
+            order by n.title";
+    $query = db_query($sql, [$tid]);
+    $results = $query->fetchAll();
+    if ($results) {
+        return cob_load_nodes_from_results($results);
+    }
+}
+
 function cob_node_siblings(array &$node)
 {
 	if ($node['#bundle'] == 'location') {
