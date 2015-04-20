@@ -416,7 +416,7 @@ function _cob_create_toc($content, $min=1, $max=6) {
 	$max = (int)$max;
 
 	$anchors = [];
-	$toc 	 = '<ol>';
+	$toc 	 = '<dl class="cob-pageOverview-toc"><dt>Learn about</dt>';
 	$i 		 = 0;
 
 	preg_match_all( "/<h([$min-$max])(.*)>([^<]+)<\/h[$min-$max]>/i", $content, $matches, PREG_SET_ORDER );
@@ -462,19 +462,19 @@ function _cob_create_toc($content, $min=1, $max=6) {
 		$title = trim(strip_tags($title));
 
 		if ($i > 0) {
-			if ($prevlvl < $lvl) { $toc .= "<ol>"; }
+			if ($prevlvl < $lvl) { $toc .= "<dl>"; }
 			else if ($prevlvl > $lvl) {
-				$toc .= '</li>';
+				$toc .= '</dd>';
 				while ($prevlvl > $lvl) {
-					$toc .= "</ol></li>";
+					$toc .= "</dl></dd>";
 					$prevlvl--;
 				}
 			}
-			else { $toc .= '</li>'; }
+			else { $toc .= '</dd>'; }
 		}
 
 		$j = 0;
-		$toc .= "<li><a href=\"#$anchor\">$title</a>";
+		$toc .= "<dd><a href=\"#$anchor\">$title</a>";
 		$prevlvl = $lvl;
 
 		$i++;
@@ -483,12 +483,12 @@ function _cob_create_toc($content, $min=1, $max=6) {
 	unset($anchors);
 
 	while ($lvl > $startlvl) {
-		$toc .= "</ol>";
+		$toc .= "</dl>";
 		$lvl--;
 	}
 
-	$toc .= '</li>';
-	$toc .= '</ol>';
+	$toc .= '</dd>';
+	$toc .= '</dl>';
 
 	return ['toc'=>$toc, 'content'=>$content];
 }
