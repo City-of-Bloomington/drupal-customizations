@@ -4,6 +4,7 @@ package.json
 .ftppass
 .sass-cache
 .build
+.settings
 
 themes/cob/css/main.css
 themes/cob/css/main.css.map
