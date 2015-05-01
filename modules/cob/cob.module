@@ -64,34 +64,6 @@ function cob_taxonomy_nodes($tid)
     }
 }
 
-function cob_node_siblings(array &$node)
-{
-	if ($node['#bundle'] == 'location') {
-		// Location parents are "Location Group" nodes
-		$field = 'field_location_group';
-	}
-	else {
-		// Normally, parents are of the same content type
-		// as the current node
-		$field = 'field_'.$node['#bundle'];
-	}
-
-	if (isset(   $node[$field]['#items'][0]['target_id'])) {
-		$pid   = $node[$field]['#items'][0]['target_id'];
-		$query = new EntityFieldQuery();
-
-		$query  ->entityCondition('entity_type', 'node')
-				->entityCondition('bundle', $node['#bundle'])
-				->propertyCondition('status', 1)
-				->propertyCondition('nid', $node['#node']->nid, '<>')
-				->fieldCondition($field, 'target_id', $pid);
-		$results = $query->execute();
-		if (!empty($results['node'])) {
-			return node_load_multiple(array_keys($results['node']));
-		}
-	}
-}
-
 /**
  * Returns nodes of the given type that refer to the given node
  *
@@ -200,52 +172,6 @@ function cob_node_reference_has_parent($current_id, $child_id, $parent_bundle, $
 }
 
 /**
- * @param array $node The current node
- * @param string $bundle Then content type of nodes to return
- * @return array An array of node objects
- */
-function cob_nodes_related_by_topics (array &$node, $bundle)
-{
-	$current_type = $node['#bundle'];
-
-	$sql = "select referencing.entity_id as nid
-			from field_data_field_topics topic
-			join field_data_field_topics referencing using (field_topics_target_id)
-			join node on referencing.entity_id=node.nid
-			where topic.bundle=:current_type and topic.entity_id=:nid
-			  and referencing.entity_id!=:rnid
-			  and referencing.bundle=:bundle
-			  and node.status=1";
-	$results = db_query($sql, [
-		'current_type'=>$current_type,
-		'nid' =>$node['#node']->nid,
-		'rnid'=>$node['#node']->nid,
-		'bundle'=>$bundle
-	]);
-
-	return cob_load_nodes_from_results($results);
-}
-
-/**
- * @param string $type The type of nodes to return
- * @param int $limit
- * @return array An array of node objects
- */
-function cob_nodes_recent($type=null, $limit=10)
-{
-	$limit = (int)$limit;
-	if ($type) {
-		$sql = "select nid from node where status=1 and type=:type order by created desc limit $limit";
-		$results = db_query($sql, ['type'=>$type]);
-	}
-	else {
-		$sql = "select nid from node where status=1 order by created desc limit $limit";
-		$results = db_query($sql);
-	}
-	return cob_load_nodes_from_results($results);
-}
-
-/**
  * Hydrates node objects from database results
  *
  * @param object $results A db_query object that has results
@@ -260,32 +186,6 @@ function cob_load_nodes_from_results($results)
 	$nodes = node_load_multiple($nids);
 	return $nodes;
 }
-
-/**
- * Returns a parent node that has a logo
- *
- * This will iterate over all the possible node references
- * and return a reference to one of them that actually has a logo.
- * This is useful for rendering a logo from a node reference
- * when the current node does not have a logo defined on itself.
- *
- * @return object The node object
- */
-function cob_logo_parent($node_id)
-{
-	$fields = ['program', 'department', 'board_or_commission', 'location'];
-	foreach ($fields as $f) {
-		$sql = "select f.field_{$f}_target_id
-				from field_data_field_$f f
-				join field_data_field_logo l on l.entity_type='node' and f.field_{$f}_target_id=l.entity_id
-				where f.entity_type='node' and f.entity_id=?";
-		$pid = db_query($sql, array($node_id))->fetchField();
-		if ($pid) {
-			return node_load($pid);
-		}
-	}
-}
-
 
 /**
  * @param int $program_node_id
