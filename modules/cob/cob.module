@@ -5,6 +5,82 @@
  * @author Cliff Ingham <inghamn@bloomington.in.gov>
  */
 /**
+ * Defines routes and callbacks for this module
+ *
+ * @implements hook_menu
+ * @see https://api.drupal.org/api/drupal/modules!system!system.api.php/function/hook_menu/7
+ */
+function cob_menu()
+{
+    return [
+        'directory/departments' => [
+            'title'            => 'Department Staff',
+            'description'      => 'Contact information for a department',
+            'page callback'    => '_cob_directory',
+            'access arguments' => ['access content']
+        ],
+        'directory' => [
+            'title'            => 'Directory',
+            'description'      => 'Lists contact information from Directory webservice',
+            'page callback'    => '_cob_directory',
+            'access arguments' => ['access content']
+        ]
+    ];
+}
+
+/**
+ * Describes custom templates used by this module
+ *
+ * @implements hook_theme()
+ * @see https://www.drupal.org/node/933976
+ * @see https://api.drupal.org/api/drupal/modules!system!system.api.php/function/hook_theme/7
+ */
+function cob_theme()
+{
+    $path = drupal_get_path('module', 'cob');
+    return [
+        'cob_directory' => [
+            'path'      => $path,
+            'template'  => 'cob_directory',
+            'variables' => ['departments'=>null]
+        ],
+        'cob_directory_listing' => [
+            'path'      => $path,
+            'template'  => 'cob_directory_listing',
+            'variables' => ['department'=>null]
+        ]
+    ];
+}
+
+function _cob_directory()
+{
+    $url = 'http://localhost/directory';
+
+    $c = func_num_args();
+    if (!$c) {
+        $url.='/departments/numbers?format=json';
+        $response = cob_http_get($url);
+        $json = json_decode($response);
+        if ($json) {
+            return theme('cob_directory', ['departments'=>$json]);
+        }
+    }
+    else {
+        // Drupal splits each of the path directories up into seperate arguments
+        // We have to put these back together into a path string
+        $path = '';
+        foreach (func_get_args() as $v) { $path.='/'.urlencode($v); }
+
+        $url.=$path;
+        $response = cob_http_get("$url?format=json");
+        $json = json_decode($response, true);
+        if ($json) {
+            return theme('cob_directory_listing', ['department'=>$json]);
+        }
+    }
+}
+
+/**
  * Override other module's theme information
  *
  * We're using this to use our own template for attachments.
