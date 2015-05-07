@@ -54,7 +54,7 @@ function cob_theme()
 
 function _cob_directory()
 {
-    $url = 'http://localhost/directory';
+    $url = 'http://apps.bloomington.in.gov/directory';
 
     $c = func_num_args();
     if (!$c) {
