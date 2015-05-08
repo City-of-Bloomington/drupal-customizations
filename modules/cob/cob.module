@@ -386,15 +386,14 @@ function _cob_toc_filter($text, $filter, $format, $langcode, $cache, $cache_id)
  * @param string $content HTML content to create a TOC for
  * @param int $min The minimum H value to look for
  * @param int $max The maximum H value to look for
- * @return array [toc=>$htmlstring, content=>$htmlstring]
+ * @return array [toc=>[anchor=>title], content=>$htmlstring]
  */
 function _cob_create_toc($content, $min=1, $max=6) {
 	$min = (int)$min;
 	$max = (int)$max;
 
 	$anchors = [];
-	$toc 	 = '<dl class="cob-pageOverview-toc"><dt>Learn about</dt>';
-	$i 		 = 0;
+	$toc 	 = [];
 
 	preg_match_all( "/<h([$min-$max])(.*)>([^<]+)<\/h[$min-$max]>/i", $content, $matches, PREG_SET_ORDER );
 
@@ -405,8 +404,6 @@ function _cob_create_toc($content, $min=1, $max=6) {
 		$attributes = $heading[2];
 		$title      = $heading[3];
 
-		if ($i == 0) { $startlvl = $lvl; }
-
 		$ret = preg_match( '/id=[\'|"](.*)?[\'|"]/i', stripslashes($attributes), $anchor);
 		if ($ret && $anchor[1] != '') {
 			$anchor = stripslashes($anchor[1]);
@@ -416,6 +413,7 @@ function _cob_create_toc($content, $min=1, $max=6) {
 			$add_id = true;
 		}
 
+		// Add numbers to make duplicate anchors unique
 		if (!in_array($anchor, $anchors)) { $anchors[] = $anchor; }
 		else {
 			$orig_anchor = $anchor;
@@ -427,6 +425,7 @@ function _cob_create_toc($content, $min=1, $max=6) {
 			$anchors[] = $anchor;
 		}
 
+		// Add the ID attribute to the anchor headings
 		if ($add_id) {
 			$content = substr_replace(
 				$content,
@@ -438,34 +437,8 @@ function _cob_create_toc($content, $min=1, $max=6) {
 
 		$title = trim(strip_tags($title));
 
-		if ($i > 0) {
-			if ($prevlvl < $lvl) { $toc .= "<dl>"; }
-			else if ($prevlvl > $lvl) {
-				$toc .= '</dd>';
-				while ($prevlvl > $lvl) {
-					$toc .= "</dl></dd>";
-					$prevlvl--;
-				}
-			}
-			else { $toc .= '</dd>'; }
-		}
-
-		$j = 0;
-		$toc .= "<dd><a href=\"#$anchor\">$title</a>";
-		$prevlvl = $lvl;
-
-		$i++;
+		$toc[$anchor] = $title;
 	}
-
-	unset($anchors);
-
-	while ($lvl > $startlvl) {
-		$toc .= "</dl>";
-		$lvl--;
-	}
-
-	$toc .= '</dd>';
-	$toc .= '</dl>';
 
 	return ['toc'=>$toc, 'content'=>$content];
 }
