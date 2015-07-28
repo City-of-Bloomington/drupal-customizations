@@ -8,3 +8,5 @@ package.json
 
 themes/cob/css/main.css
 themes/cob/css/main.css.map
+
+.DS_Store
