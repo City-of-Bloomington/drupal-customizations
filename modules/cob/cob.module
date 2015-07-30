@@ -14,13 +14,13 @@ function cob_menu()
 {
     return [
         'directory/departments' => [
-            'title'            => 'Department Staff',
+            'title'            => 'Department Staff Directory',
             'description'      => 'Contact information for a department',
             'page callback'    => '_cob_directory',
             'access arguments' => ['access content']
         ],
         'directory' => [
-            'title'            => 'Directory',
+            'title'            => 'Staff Directory',
             'description'      => 'Lists contact information from Directory webservice',
             'page callback'    => '_cob_directory',
             'access arguments' => ['access content']
