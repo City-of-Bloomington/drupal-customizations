@@ -9,7 +9,7 @@
 <div class="cob-pageOverview">
     <div class="cob-pageOverview-container">
         <div>
-            Into text.
+            Intro text.
         </div>
     </div>
 </div>
