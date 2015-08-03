@@ -52,32 +52,19 @@ function cob_theme()
     ];
 }
 
+/**
+ * Displays the list of department nodes and their contact info
+ */
 function _cob_directory()
 {
-    $url = 'http://apps.bloomington.in.gov/directory';
+    $d = node_load_multiple([], ['type'=>'department']);
 
-    $c = func_num_args();
-    if (!$c) {
-        $url.='/departments/numbers?format=json';
-        $response = cob_http_get($url);
-        $json = json_decode($response);
-        if ($json) {
-            return theme('cob_directory', ['departments'=>$json]);
-        }
-    }
-    else {
-        // Drupal splits each of the path directories up into seperate arguments
-        // We have to put these back together into a path string
-        $path = '';
-        foreach (func_get_args() as $v) { $path.='/'.urlencode($v); }
-
-        $url.=$path;
-        $response = cob_http_get("$url?format=json");
-        $json = json_decode($response, true);
-        if ($json) {
-            return theme('cob_directory_listing', ['department'=>$json]);
-        }
-    }
+    usort($d, function ($a, $b) {
+        if ($a->title == $b->title) { return 0; }
+        return ($a->title < $b->title) ? -1 : 1;
+    });
+    
+    return theme('cob_directory', ['departments'=>$d]);
 }
 
 /**
