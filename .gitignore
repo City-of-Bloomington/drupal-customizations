@@ -5,6 +5,7 @@ package.json
 .sass-cache
 .build
 .settings
+.idea
 
 themes/cob/css/main.css
 themes/cob/css/main.css.map
