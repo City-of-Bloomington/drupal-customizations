@@ -63,7 +63,7 @@ function _cob_directory()
         if ($a->title == $b->title) { return 0; }
         return ($a->title < $b->title) ? -1 : 1;
     });
-    
+
     return theme('cob_directory', ['departments'=>$d]);
 }
 
@@ -323,6 +323,19 @@ function cob_http_get($url)
 function cob_department_info($dn)
 {
     $url = 'http://apps.bloomington.in.gov/directory/departments/view?format=json;dn='.urlencode($dn);
+    $json = cob_http_get($url);
+    return json_decode($json);
+}
+
+/**
+ * Returns the RecTrac types associated with the chosen category
+ *
+ * @param string $category The five character category Type code from RecTrac
+ * @return stdClass The JSON object from the response
+ */
+function cob_rectrac_types($category)
+{
+    $url = "http://link.bloomington.in.gov/rectrac/types?format=json;category=$category";
     $json = cob_http_get($url);
     return json_decode($json);
 }
