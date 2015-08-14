@@ -24,9 +24,18 @@ function cob_menu()
             'description'      => 'Lists contact information from Directory webservice',
             'page callback'    => '_cob_directory',
             'access arguments' => ['access content']
+        ],
+        'rectrac/%' => [
+            'title'            => 'Parks and Recreation Activities',
+            'description'      => 'Displays a single activity from RecTrac',
+            'page callback'    => '_cob_rectrac_activity',
+            'page arguments'   => [1],
+            'access arguments' => ['access content']
         ]
     ];
 }
+include __DIR__.'/cob_directory.php';
+include __DIR__.'/cob_rectrac.php';
 
 /**
  * Describes custom templates used by this module
@@ -48,23 +57,13 @@ function cob_theme()
             'path'      => $path,
             'template'  => 'cob_directory_listing',
             'variables' => ['department'=>null]
+        ],
+        'cob_rectrac_activity' => [
+            'path'      => $path,
+            'template'  => 'cob_rectrac_activity',
+            'variables' => ['activity'=>null]
         ]
     ];
-}
-
-/**
- * Displays the list of department nodes and their contact info
- */
-function _cob_directory()
-{
-    $d = node_load_multiple([], ['type'=>'department']);
-
-    usort($d, function ($a, $b) {
-        if ($a->title == $b->title) { return 0; }
-        return ($a->title < $b->title) ? -1 : 1;
-    });
-
-    return theme('cob_directory', ['departments'=>$d]);
 }
 
 /**
@@ -309,37 +308,6 @@ function cob_http_get($url)
     }
     return curl_exec($session);
 }
-
-/**
- * Returns contact information for a department
- *
- * We store the official contact information in Active Directory
- * This function requests data from the Directory web application's
- * restful web service.
- *
- * @param string $dn The DN for the department
- * @return stdClass The JSON object from the response
- */
-function cob_department_info($dn)
-{
-    $url = 'http://apps.bloomington.in.gov/directory/departments/view?format=json;dn='.urlencode($dn);
-    $json = cob_http_get($url);
-    return json_decode($json);
-}
-
-/**
- * Returns the RecTrac types associated with the chosen category
- *
- * @param string $category The five character category Type code from RecTrac
- * @return stdClass The JSON object from the response
- */
-function cob_rectrac_types($category)
-{
-    $url = "http://link.bloomington.in.gov/rectrac/types?format=json;category=$category";
-    $json = cob_http_get($url);
-    return json_decode($json);
-}
-
 
 function _cob_ureport_filter($text, $filter, $format, $langcode, $cache, $cache_id)
 {
