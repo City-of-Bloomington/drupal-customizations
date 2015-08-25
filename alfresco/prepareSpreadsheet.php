@@ -4,6 +4,9 @@
  * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
  * @author Cliff Ingham <inghamn@bloomington.in.gov>
  */
+// Point this to a directory all containing a single type of document
+$DIR = __DIR_.'/files/Agendas';
+
 $FILES = fopen('./files.txt','w');
 
 $xml = <<<EOT
@@ -28,12 +31,12 @@ function prep(DirectoryIterator $dir)
             }
             else {
                 if ($f->getExtension() != 'xml') {
-                    fwrite($FILES, $f->getPath().'/'.$f->getFilename()."\n");
+                    fwrite($FILES, $f->getPath().'/'.$f->getFilename()."|\n");
                 }
             }
         }
     }
 }
-prep(new DirectoryIterator(__DIR__.'/files/Agendas'));
+prep(new DirectoryIterator($DIR));
 
 fclose($FILES);
