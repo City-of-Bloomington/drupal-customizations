@@ -274,6 +274,7 @@ function cob_upcoming_events($program_node_id=null)
 
 /**
  * @implements hook_filter_info()
+ * @see https://api.drupal.org/api/drupal/modules%21filter%21filter.api.php/function/hook_filter_info/7
  */
 function cob_filter_info()
 {
@@ -287,7 +288,13 @@ function cob_filter_info()
 			'title'            => 'Table of Contents',
 			'description'      => 'Converts {toc} into a set of anchor links to header tags in the content',
 			'process callback' => '_cob_toc_filter'
+		],
+		'internal_links' => [
+            'title'            => 'Internal Links',
+            'description'      => 'Allows node/XX style links to always use the correct base url and alias, if avaiable',
+            'process callback' => '_cob_internal_links_filter'
 		]
+
 	];
 }
 
@@ -309,6 +316,25 @@ function cob_http_get($url)
     return curl_exec($session);
 }
 
+/**
+ * @implements callback_filter_process()
+ * @see https://api.drupal.org/api/drupal/modules!filter!filter.api.php/function/callback_filter_process/7
+ */
+function _cob_internal_links_filter($text, $filter, $format, $langcode, $cache, $cache_id)
+{
+    return preg_replace_callback(
+        '/\[(.+)?\]\((node\/\d+)\)/',
+        function ($matches) {
+            return l($matches[1], $matches[2]);
+        },
+        $text
+    );
+}
+
+/**
+ * @implements callback_filter_process()
+ * @see https://api.drupal.org/api/drupal/modules!filter!filter.api.php/function/callback_filter_process/7
+ */
 function _cob_ureport_filter($text, $filter, $format, $langcode, $cache, $cache_id)
 {
 	$open311Proxy = '//rogue.bloomington.in.gov/open311-proxy';
@@ -332,6 +358,10 @@ function _cob_ureport_filter($text, $filter, $format, $langcode, $cache, $cache_
 	return preg_replace('/{open311:(.+)}/', $ureportMarkup, $text);
 }
 
+/**
+ * @implements callback_filter_process()
+ * @see https://api.drupal.org/api/drupal/modules!filter!filter.api.php/function/callback_filter_process/7
+ */
 function _cob_toc_filter($text, $filter, $format, $langcode, $cache, $cache_id)
 {
 	$parameters = [];
