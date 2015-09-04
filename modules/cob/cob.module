@@ -337,7 +337,7 @@ function _cob_internal_links_filter($text, $filter, $format, $langcode, $cache, 
  */
 function _cob_ureport_filter($text, $filter, $format, $langcode, $cache, $cache_id)
 {
-	$open311Proxy = '//rogue.bloomington.in.gov/open311-proxy';
+	$open311Proxy = '/open311-proxy';
 
 	$ureportMarkup = "
 	<script type=\"text/javascript\">
