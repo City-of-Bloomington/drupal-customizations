@@ -311,7 +311,11 @@ function cob_http_get($url)
     if (substr($url, 0, 5) == 'https') {
         curl_setopt($session, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($session, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($session, CURLOPT_SSLVERSION, 3);
+//        curl_setopt($session, CURLOPT_SSLVERSION, 3);
+/* Note on above line from PHP docs:
+Your best bet is to not set this and let it use the default. Setting it to 2 or 3 is very dangerous given the known vulnerabilities in SSLv2 and SSLv3.
+http://php.net/manual/en/function.curl-setopt.php
+*/
     }
     return curl_exec($session);
 }
