@@ -95,7 +95,7 @@ function cob_book_info(&$book)
     $sql = "select b.nid, n.type, n.title, c.field_category_tid
             from book b
             join node n on b.nid=n.nid
-            join field_data_field_category c on b.nid=c.entity_id
+            left join field_data_field_category c on b.nid=c.entity_id
             where b.mlid=?";
     $query = db_query($sql, [$book['plid']]);
     $results = $query->fetchAll();
