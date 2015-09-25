@@ -6,6 +6,7 @@ package.json
 .build
 .settings
 .idea
+build
 
 themes/cob/css/main.css
 themes/cob/css/main.css.map
