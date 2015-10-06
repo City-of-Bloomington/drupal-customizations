@@ -36,3 +36,11 @@ function cob_department_info($dn)
     $json = cob_http_get($url);
     return json_decode($json);
 }
+
+function cob_person_info($username)
+{
+    $DIRECTORY = variable_get('cob_directory_uri');
+    $url = $DIRECTORY.'/people/view?format=json;username='.$username;
+    $json = cob_http_get($url);
+    return json_decode($json);
+}
