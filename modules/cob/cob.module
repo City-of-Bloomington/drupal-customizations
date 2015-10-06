@@ -341,7 +341,7 @@ function _cob_internal_links_filter($text, $filter, $format, $langcode, $cache, 
  */
 function _cob_ureport_filter($text, $filter, $format, $langcode, $cache, $cache_id)
 {
-	$open311Proxy = '/open311-proxy';
+    $open311Proxy = variable_get('cob_open311_uri');
 
 	$ureportMarkup = "
 	<script type=\"text/javascript\">

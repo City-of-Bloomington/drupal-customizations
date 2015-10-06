@@ -31,7 +31,8 @@ function _cob_directory()
  */
 function cob_department_info($dn)
 {
-    $url = 'http://apps.bloomington.in.gov/directory/departments/view?format=json;dn='.urlencode($dn);
+    $DIRECTORY = variable_get('cob_directory_uri');
+    $url = $DIRECTORY.'/departments/view?format=json;dn='.urlencode($dn);
     $json = cob_http_get($url);
     return json_decode($json);
 }

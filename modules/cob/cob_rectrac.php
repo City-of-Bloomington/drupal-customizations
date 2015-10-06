@@ -23,7 +23,8 @@ function _cob_rectrac_activity($id)
  */
 function cob_rectrac_activity($id)
 {
-    $url = 'http://link.bloomington.in.gov/rectrac/activities?format=json;';
+    $RECTRAC = variable_get('cob_rectrac_uri');
+    $url = $RECTRAC.'/activities?format=json;';
 
     if (is_numeric($id)) {
         $id  = (int)$id;
@@ -45,7 +46,8 @@ function cob_rectrac_activity($id)
  */
 function cob_rectrac_types($category)
 {
-    $url = "http://link.bloomington.in.gov/rectrac/types?format=json;category=$category";
+    $RECTRAC = variable_get('cob_rectrac_activity');
+    $url = "$RECTRAC/types?format=json;category=$category";
     $json = cob_http_get($url);
     return json_decode($json);
 }
