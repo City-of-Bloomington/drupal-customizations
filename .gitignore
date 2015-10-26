@@ -3,7 +3,7 @@ gulpfile.js
 package.json
 .ftppass
 .sass-cache
-.build
+.gulp-build
 .settings
 .idea
 build
