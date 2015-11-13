@@ -5,6 +5,29 @@
  * @author Cliff Ingham <inghamn@bloomington.in.gov>
  */
 /**
+ * @see http://www.drupalcontrib.org/api/drupal/contributions!libraries!libraries.api.php/function/hook_libraries_info/7
+ * @implements hook_libraries_info()
+ */
+function cob_libraries_info()
+{
+    return ['google-api-php-client' => [
+        'name'         => 'Google API PHP Client',
+        'vendor url'   => 'https://github.com/google/google-api-php-client',
+        'download url' => 'https://github.com/google/google-api-php-client/archive/master.zip',
+        'version callback' => 'cob_version_check',
+        'files' => [
+            'php' => ['src/Google/autoload.php']
+        ]
+    ]];
+}
+
+/**
+ * Right now we do not care about version.
+ * Any version of the google_api will do
+ */
+function cob_version_check() { return true; }
+
+/**
  * Defines routes and callbacks for this module
  *
  * @implements hook_menu
@@ -36,6 +59,7 @@ function cob_menu()
 }
 include __DIR__.'/cob_directory.php';
 include __DIR__.'/cob_rectrac.php';
+include __DIR__.'/cob_calendars.php';
 
 /**
  * Describes custom templates used by this module
