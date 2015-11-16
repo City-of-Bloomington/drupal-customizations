@@ -50,9 +50,9 @@ function cob_calendar_service()
  */
 function cob_calendar_events($calendarId, \DateTime $start=null, \DateTime $end=null, $singleEvents=true, $maxResults=null)
 {
-    $FIELDS = 'description,end,endTimeUnspecified,id,location,'
+    $FIELDS = 'description,end,endTimeUnspecified,htmlLink,id,location,'
             . 'originalStartTime,recurrence,recurringEventId,sequence,'
-            . 'start,summary';
+            . 'start,summary,attendees';
 
     $opts = [
         'fields'       => "items($FIELDS)",
