@@ -52,7 +52,7 @@ function cob_calendar_events($calendarId, \DateTime $start=null, \DateTime $end=
 {
     $FIELDS = 'description,end,endTimeUnspecified,htmlLink,id,location,'
             . 'originalStartTime,recurrence,recurringEventId,sequence,'
-            . 'start,summary,attendees';
+            . 'start,summary,attendees,organizer';
 
     $opts = [
         'fields'       => "items($FIELDS)",
@@ -66,6 +66,21 @@ function cob_calendar_events($calendarId, \DateTime $start=null, \DateTime $end=
     $service = cob_calendar_service();
     $events = $service->events->listEvents($calendarId, $opts);
     return $events;
+}
+
+/**
+ * @param string $calendarId
+ * @return int
+ */
+function cob_calendar_node_id($calendarId)
+{
+    $query = new EntityFieldQuery();
+    $query->fieldCondition('field_google_calendar_id', 'value', $calendarId, '=');
+    $result = $query->execute();
+
+    if (count($result)) {
+        return array_keys($result['node'])[0];
+    }
 }
 
 /**
