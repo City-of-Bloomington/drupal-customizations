@@ -151,6 +151,23 @@ function cob_taxonomy_nodes($tid)
 }
 
 /**
+ * Return most recently created nodes of given type
+ *
+ * @param string $type  Content Type
+ * @param int    $count Number of nodes to return
+ * @return array An array of Node objects
+ */
+function cob_recent_nodes($type, $count=5)
+{
+    $sql = 'select nid from node where type=? and status=? order by created desc limit '.(int)$count;
+    $query = db_query($sql, [$type, NODE_PUBLISHED]);
+    $results = $query->fetchAll();
+    if ($results) {
+        return cob_load_nodes_from_results($results);
+    }
+}
+
+/**
  * Returns nodes of the given type that refer to the given node
  *
  * Important:
@@ -271,29 +288,6 @@ function cob_load_nodes_from_results($results)
 	}
 	$nodes = node_load_multiple($nids);
 	return $nodes;
-}
-
-/**
- * @param int $program_node_id
- * @return db_results
- */
-function cob_upcoming_events($program_node_id=null)
-{
-	$sql = "select
-				dates.entity_id as event_node_id,
-				min(dates.field_date_value) as date,
-				node.title,
-				program.field_program_target_id as program_node_id
-			from field_data_field_date dates
-			join node on dates.entity_id=node.nid
-			left join field_data_field_program program on dates.entity_id=program.entity_id
-			where dates.field_date_value >= now()";
-	if ($program_node_id) {
-		$sql.= ' and program.field_program_target_id='.(int)$program_node_id;
-	}
-	$sql.= " group by dates.entity_id order by date";
-
-	return db_query($sql);
 }
 
 /**
