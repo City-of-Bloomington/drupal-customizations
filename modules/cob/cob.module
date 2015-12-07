@@ -101,10 +101,10 @@ function cob_theme()
  * @param array $theme_registry The entire cache of theme registry information, post-processing.
  * @see https://api.drupal.org/api/drupal/modules!system!system.api.php/function/hook_theme_registry_alter/7
  */
-function cob_theme_registry_alter(&$theme_registry)
-{
-    $theme_registry['cmisro_object']['path'] = drupal_get_path('theme', 'cob').'/templates';
-}
+#function cob_theme_registry_alter(&$theme_registry)
+#{
+#    $theme_registry['cmisro_object']['path'] = drupal_get_path('theme', 'cob').'/templates';
+#}
 
 /**
  * Fetches useful book information
@@ -340,9 +340,18 @@ function cob_http_get($url)
 function _cob_internal_links_filter($text, $filter, $format, $langcode, $cache, $cache_id)
 {
     return preg_replace_callback(
-        '/\[(.+)?\]\((node\/\d+)\)/',
+        '/\[([^\]]*)\]\(([^\)]*)\)/',
         function ($matches) {
-            return l($matches[1], $matches[2]);
+            if (substr($matches[2], 0, 1) !== '/') {
+                if (is_numeric($matches[2])) {
+                    $matches[2] = "node/$matches[2]";
+                }
+                $url = url($matches[2]);
+                return "[$matches[1]]($url)";
+            }
+            else {
+                return $text;
+            }
         },
         $text
     );
