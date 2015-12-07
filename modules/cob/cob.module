@@ -349,9 +349,7 @@ function _cob_internal_links_filter($text, $filter, $format, $langcode, $cache, 
                 $url = url($matches[2]);
                 return "[$matches[1]]($url)";
             }
-            else {
-                return $text;
-            }
+            return $matches[0];
         },
         $text
     );
