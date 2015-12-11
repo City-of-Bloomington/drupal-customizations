@@ -59,6 +59,7 @@ function cob_calendar_events($calendarId, \DateTime $start=null, \DateTime $end=
         'singleEvents' => $singleEvents,
         'maxResults'   => $maxResults
     ];
+    if ($singleEvents) { $opts['orderBy'] = 'startTime'; }
 
     if ($start) { $opts['timeMin'] = $start->format(\DateTime::RFC3339); }
     if ($end  ) { $opts['timeMax'] = $end  ->format(\DateTime::RFC3339); }
