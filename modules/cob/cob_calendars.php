@@ -89,5 +89,5 @@ function cob_calendar_node_id($calendarId)
  */
 function cob_calendar_url($calendarId)
 {
-    return 'https://www.google.com/calendar/embed?src='.$calendarId;
+    return 'https://www.google.com/calendar/embed?mode=AGENDA&src='.$calendarId;
 }
