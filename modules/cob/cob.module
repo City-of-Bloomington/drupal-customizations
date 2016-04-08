@@ -80,7 +80,15 @@ function cob_theme()
         'cob_directory_listing' => [
             'path'      => $path,
             'template'  => 'cob_directory_listing',
-            'variables' => ['department'=>null]
+            'variables' => ['department'=>null, 'node'=>null]
+        ],
+        'cob_directory_departmentContactInfo' => [
+            'variables' => ['department'=>null],
+            'function' => '_cob_directory_departmentContactInfo'
+        ],
+        'cob_directory_peopleContactInfo' => [
+            'variables' => ['department'=>null],
+            'function' => '_cob_directory_peopleContactInfo'
         ],
         'cob_rectrac_activity' => [
             'path'      => $path,
