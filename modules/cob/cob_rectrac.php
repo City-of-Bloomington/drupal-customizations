@@ -46,7 +46,7 @@ function cob_rectrac_activity($id)
  */
 function cob_rectrac_types($category)
 {
-    $RECTRAC = variable_get('cob_rectrac_activity');
+    $RECTRAC = variable_get('cob_rectrac_uri');
     $url = "$RECTRAC/types?format=json;category=$category";
     $json = cob_http_get($url);
     return json_decode($json);
