@@ -63,7 +63,7 @@ function _cob_directory_peopleContactInfo($vars)
                 $html.= "
                 <tr><td>$name <span class=\"cob-directory-title\">{$p->title}</span></td>
                     <td><a href=\"mailto:{$p->email}\">{$p->email}</a></td>
-                    <td>{$p->office}</td>
+                    <td>{$p->pager}</td>
                 </tr>
                 ";
             }
