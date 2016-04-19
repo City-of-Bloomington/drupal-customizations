@@ -160,6 +160,23 @@ function cob_recent_nodes($type, $count=5)
 }
 
 /**
+ * @return array An array of Alert Node objects
+ */
+function cob_alert_nodes()
+{
+    $sql = "select n.nid from node n
+            join field_data_field_duration d on n.nid=d.entity_id
+            where n.type='alert'
+              and d.field_duration_value < unix_timestamp()
+              and unix_timestamp() < d.field_duration_value2";
+    $query = db_query($sql);
+    $results = $query->fetchAll();
+    if ($results) {
+        return cob_load_nodes_from_results($results);
+    }
+}
+
+/**
  * Returns nodes of the given type that refer to the given node
  *
  * Important:
