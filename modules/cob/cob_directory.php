@@ -26,9 +26,9 @@ function _cob_directory()
  */
 function _cob_directory_departmentContactInfo($vars)
 {
-    $deptContactFields = ['office', 'address', 'email'];
+    $deptContactFields = ['address', 'office', 'email'];
 
-    $html = "<h2>{$vars['department']->name}</h2><dl>";
+    $html = "<dl>";
     foreach ($deptContactFields as $f) {
         if (!empty($vars['department']->$f)) {
             $key   = ucfirst($f);
@@ -40,6 +40,7 @@ function _cob_directory_departmentContactInfo($vars)
 
     if (isset(   $vars['department']->departments)) {
         foreach ($vars['department']->departments as $d) {
+            $html.="<h2>{$d->name}</h2>";
             $html.= _cob_directory_departmentContactInfo(['department'=>$d]);
         }
     }
