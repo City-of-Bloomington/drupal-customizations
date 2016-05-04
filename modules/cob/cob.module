@@ -42,7 +42,7 @@ function cob_menu()
             'page callback'    => '_cob_directory',
             'access arguments' => ['access content']
         ],
-        'directory' => [
+        'contact/directory' => [
             'title'            => 'Staff Directory',
             'description'      => 'Lists contact information from Directory webservice',
             'page callback'    => '_cob_directory',
