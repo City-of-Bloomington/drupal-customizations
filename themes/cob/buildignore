@@ -1,6 +1,0 @@
-/buildignore
-/build.sh
-/build
-.git/
-.git*
-.sass-cache
