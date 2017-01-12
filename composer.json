@@ -13,6 +13,19 @@
         {
             "type": "composer",
             "url": "https://packages.drupal.org/8"
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "City-of-Bloomington/directory",
+                "type": "drupal-module",
+                "version": "dev",
+                "source": {
+                    "type": "git",
+                    "url": "https://github.com/City-of-Bloomington/drupal-module-directory",
+                    "reference": "master"
+                }
+            }
         }
     ],
     "require": {
@@ -25,7 +38,8 @@
         "drupal/cas": "~1.0",
         "drupal/markdown": "~1.0",
         "drupal/ckeditor_markdown": "~1.0",
-        "drupal/pathauto": "~1.0"
+        "drupal/pathauto": "~1.0",
+        "City-of-Bloomington/directory": "dev"
     },
     "require-dev": {
         "behat/mink": "~1.7",
