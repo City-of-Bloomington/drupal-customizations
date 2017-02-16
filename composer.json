@@ -17,6 +17,45 @@
         {
             "type": "package",
             "package": {
+                "name": "City-of-Bloomington/calendar",
+                "type": "drupal-module",
+                "version": "dev",
+                "source": {
+                    "type": "git",
+                    "url": "https://github.com/City-of-Bloomington/drupal-module-calendar",
+                    "reference": "master"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "City-of-Bloomington/ckan",
+                "type": "drupal-module",
+                "version": "dev",
+                "source": {
+                    "type": "git",
+                    "url": "https://github.com/City-of-Bloomington/drupal-module-ckan",
+                    "reference": "8.x-dev"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "City-of-Bloomington/cob",
+                "type": "drupal-theme",
+                "version": "dev",
+                "source": {
+                    "type": "git",
+                    "url": "https://github.com/City-of-Bloomington/drupal-theme-cob",
+                    "reference": "8.x-dev"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
                 "name": "City-of-Bloomington/directory",
                 "type": "drupal-module",
                 "version": "dev",
@@ -40,32 +79,6 @@
                 }
             }
         },
-        {
-            "type": "package",
-            "package": {
-                "name": "City-of-Bloomington/calendar",
-                "type": "drupal-module",
-                "version": "dev",
-                "source": {
-                    "type": "git",
-                    "url": "https://github.com/City-of-Bloomington/drupal-module-calendar",
-                    "reference": "master"
-                }
-            }
-        },
-        {
-            "type": "package",
-            "package": {
-                "name": "City-of-Bloomington/cob",
-                "type": "drupal-theme",
-                "version": "dev",
-                "source": {
-                    "type": "git",
-                    "url": "https://github.com/City-of-Bloomington/drupal-theme-cob",
-                    "reference": "8.x-dev"
-                }
-            }
-        }
     ],
     "require": {
         "composer/installers": "^1.2",
@@ -79,10 +92,11 @@
         "drupal/ckeditor_markdown": "~1.0",
         "drupal/pathauto": "~1.0",
         "google/apiclient": "~2.0",
-        "City-of-Bloomington/directory": "dev",
-        "City-of-Bloomington/onboard": "dev",
         "City-of-Bloomington/calendar": "dev",
-        "City-of-Bloomington/cob": "dev"
+        "City-of-Bloomington/ckan": "dev",
+        "City-of-Bloomington/cob": "dev",
+        "City-of-Bloomington/directory": "dev",
+        "City-of-Bloomington/onboard": "dev"
     },
     "require-dev": {
         "behat/mink": "~1.7",

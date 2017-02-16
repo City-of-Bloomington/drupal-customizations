@@ -82,6 +82,7 @@ that are not in use will greatly improve the performance of Drupal.
 ### Disable
 * Comment
 * Contact
+* Contextual Links
 * History
 * Quick Edit
 * RDF
