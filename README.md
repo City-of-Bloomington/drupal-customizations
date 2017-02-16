@@ -49,8 +49,8 @@ We've already started building a site using Drupal 7.  We're planning on migrati
 * use the web interface to point at Drupal 7
 
 ### notes
-CAS                     cannot be installed during migration
-External Authentication cannot be installed during migration
+* CAS                     cannot be installed during migration
+* External Authentication cannot be installed during migration
 
 #### Basic Page renamed
 The name of the default content type, "Basic Page" has been renamed
@@ -69,3 +69,20 @@ Drupal 8.
 
 * Calendar ID fields
 * Department directory DN's
+
+## Modules to enable/disable
+Once you have the default installation finished, you'll want to enable modules
+we're using - and disable moduels we're not going to use.  Disabling moduels
+that are not in use will greatly improve the performance of Drupal.
+
+### Enable
+* CAS
+* Pathauto
+
+### Disable
+* Comment
+* Contact
+* History
+* Quick Edit
+* RDF
+* Tour
