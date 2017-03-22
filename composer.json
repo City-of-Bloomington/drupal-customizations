@@ -78,6 +78,19 @@
                     "reference": "8.x-dev"
                 }
             }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "City-of-Bloomington/promt",
+                "type": "drupal-module",
+                "version": "dev",
+                "source": {
+                    "type": "git",
+                    "url": "https://github.com/City-of-Bloomington/drupal-module-promt",
+                    "reference": "master"
+                }
+            }
         }
     ],
     "require": {
@@ -99,7 +112,8 @@
         "City-of-Bloomington/ckan": "dev",
         "City-of-Bloomington/cob": "dev",
         "City-of-Bloomington/directory": "dev",
-        "City-of-Bloomington/onboard": "dev"
+        "City-of-Bloomington/onboard": "dev",
+        "City-of-Bloomington/promt": "dev"
     },
     "require-dev": {
         "behat/mink": "~1.7",
