@@ -36,7 +36,7 @@
                 "source": {
                     "type": "git",
                     "url": "https://github.com/City-of-Bloomington/drupal-module-ckan",
-                    "reference": "8.x-dev"
+                    "reference": "master"
                 }
             }
         },
@@ -49,7 +49,7 @@
                 "source": {
                     "type": "git",
                     "url": "https://github.com/City-of-Bloomington/drupal-theme-cob",
-                    "reference": "8.x-dev"
+                    "reference": "master"
                 }
             }
         },
@@ -75,7 +75,7 @@
                 "source": {
                     "type": "git",
                     "url": "https://github.com/City-of-Bloomington/drupal-module-onboard",
-                    "reference": "8.x-dev"
+                    "reference": "master"
                 }
             }
         },
