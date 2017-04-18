@@ -17,6 +17,19 @@
         {
             "type": "package",
             "package": {
+                "name": "City-of-Bloomington/archive",
+                "type": "drupal-module",
+                "version": "dev",
+                "source": {
+                    "type": "git",
+                    "url": "https://github.com/City-of-Bloomington/drupal-module-archive",
+                    "reference": "master"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
                 "name": "City-of-Bloomington/calendar",
                 "type": "drupal-module",
                 "version": "dev",
@@ -108,6 +121,7 @@
         "drupal/paragraphs": "~1.0",
         "drupal/pathauto": "~1.0",
         "google/apiclient": "~2.0",
+        "City-of-Bloomington/archive": "dev",
         "City-of-Bloomington/calendar": "dev",
         "City-of-Bloomington/ckan": "dev",
         "City-of-Bloomington/cob": "dev",
