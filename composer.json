@@ -30,6 +30,19 @@
         {
             "type": "package",
             "package": {
+                "name": "City-of-Bloomington/asm",
+                "type": "drupal-module",
+                "version": "dev",
+                "source": {
+                    "type": "git",
+                    "url": "https://github.com/City-of-Bloomington/drupal-module-asm",
+                    "reference": "8.x-1.x"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
                 "name": "City-of-Bloomington/calendar",
                 "type": "drupal-module",
                 "version": "dev",
