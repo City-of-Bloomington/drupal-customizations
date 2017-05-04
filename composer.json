@@ -135,6 +135,7 @@
         "drupal/pathauto": "~1.0",
         "google/apiclient": "~2.0",
         "City-of-Bloomington/archive": "dev",
+        "City-of-Bloomington/asm": "dev",
         "City-of-Bloomington/calendar": "dev",
         "City-of-Bloomington/ckan": "dev",
         "City-of-Bloomington/cob": "dev",
