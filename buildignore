@@ -1,0 +1,8 @@
+buildignore
+build
+mockups
+.git/
+.git*
+.sass-cache
+/web/themes/contrib/cob/vendor
+settings.php
