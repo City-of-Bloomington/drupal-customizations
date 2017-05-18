@@ -1,8 +1,16 @@
 # City of Bloomington Drupal Site
 
-This the project for the City's new website, built using Drupal.  It is created from an initial setup of Drupal's composer installation:
+The City of Bloomington is migrating our site to use Drupal as our content management system. 
 
-https://github.com/drupal-composer/drupal-project
+## Requirements
+Drupal runs on a standard Linux-Apache-MySQL-PHP (LAMP) stack. Instructions for setting up those requirements are beyond the scope of this project, but we do maintain separate repositories to document this:
+
+https://github.com/City-of-Bloomington/system-playbooks
+
+Specifically, these two roles should yield a working foundation:
+
+https://github.com/City-of-Bloomington/ansible-role-php
+https://github.com/City-of-Bloomington/ansible-role-mysql
 
 ## Installation
 * clone the project
@@ -87,3 +95,15 @@ that are not in use will greatly improve the performance of Drupal.
 * Quick Edit
 * RDF
 * Tour
+
+## Source
+
+This project is based on an initial setup of Drupal's composer installation:
+
+https://github.com/drupal-composer/drupal-project
+
+## Work in progress:
+The following role is an attempt to specify the full configuration using ansible, but it is incomplete at this point (2017.05.15):
+
+https://github.com/City-of-Bloomington/ansible-role-drupal
+
