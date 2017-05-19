@@ -133,6 +133,7 @@
         "drupal/media_entity_image": "~1.2",
         "drupal/paragraphs": "~1.0",
         "drupal/pathauto": "~1.0",
+        "drupal/smart_trim": "~1.0",
         "google/apiclient": "~2.0",
         "City-of-Bloomington/archive": "dev",
         "City-of-Bloomington/asm": "dev",
