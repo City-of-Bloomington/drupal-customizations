@@ -128,6 +128,7 @@
         "drupal/console": "~1.0",
         "drupal/cas": "~1.0",
         "drupal/entity_browser": "~1.0",
+        "drupal/geolocation": "~1.0",
         "drupal/inline_entity_form": "~1.0",
         "drupal/linkit": "~5.0",
         "drupal/media_entity_image": "~1.2",
