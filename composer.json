@@ -95,6 +95,19 @@
         {
             "type": "package",
             "package": {
+                "name": "City-of-Bloomington/interactivemap",
+                "type": "drupal-module",
+                "version": "dev",
+                "source": {
+                    "type": "git",
+                    "url": "https://github.com/City-of-Bloomington/drupal-module-interactivemap",
+                    "reference": "master"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
                 "name": "City-of-Bloomington/onboard",
                 "type": "drupal-module",
                 "version": "dev",
@@ -142,6 +155,7 @@
         "City-of-Bloomington/ckan": "dev",
         "City-of-Bloomington/cob": "dev",
         "City-of-Bloomington/directory": "dev",
+        "City-of-Bloomington/interactivemap": "dev",
         "City-of-Bloomington/onboard": "dev",
         "City-of-Bloomington/promt": "dev"
     },
