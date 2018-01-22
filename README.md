@@ -1,6 +1,6 @@
 # City of Bloomington Drupal Site
 
-The City of Bloomington is migrating our site to use Drupal as our content management system. 
+The City of Bloomington is migrating our site to use Drupal as our content management system.
 
 ## Requirements
 Drupal runs on a standard Linux-Apache-MySQL-PHP (LAMP) stack. Instructions for setting up those requirements are beyond the scope of this project, but we do maintain separate repositories to document this:
@@ -13,21 +13,48 @@ https://github.com/City-of-Bloomington/ansible-role-php
 https://github.com/City-of-Bloomington/ansible-role-mysql
 
 ## Installation
-* clone the project
+* clone the project locally
 * run composer update
+* build and deploy
 * create the database
 * add Apache configuration
 
 ### Clone from Github
 ```bash
-cd /srv/sites
 git clone https://github.com/City-of-Bloomington/drupal-customizations.git drupal
 ```
 
 ### Composer update
+When you are applying updates to Drupal, it is vitally important to clear the drupal cache before running `composer update`.  Drupal's customizations to composer do not check for fresh versions from Github.  **You must manually delete the old modules and clear composer's cache**.
+
 ```bash
-cd /srv/sites/drupal
+cd drupal
+composer clear-cache
+cd web/modules/contrib
+rm -Rf *
+cd ../../themes/contrib
+rm -Rf *
+cd ../../../
 composer update
+```
+
+The COB theme has an additional dependency that must be installed before we can compile the CSS.  There is an additional composer.json to run.
+```bash
+cd drupal/web/themes/contrib/cob
+composer update
+```
+
+### Build and Deploy
+The build script requires NodeJS and node-sass to compile the CSS.  Once you have node-sass installed, you can run the build script.  The will compile all the CSS and create a clean build directory.  This will strip out all the Git repo stuff, resulting in a much, much smaller size for the site installation.
+```
+cd drupal
+./build.sh
+```
+
+I usually use Rsync to deploy the `build` directory.
+```
+cd drupal
+rsync -rlve ssh ./build/ drupal.server.org:/srv/sites/drupal/
 ```
 
 ### Create the database
@@ -49,38 +76,9 @@ Alias /drupal  "/srv/sites/drupal/web"
 </Directory>
 ```
 
-## Migration from Drupal 7
-We've already started building a site using Drupal 7.  We're planning on migrating what we've got set, so far, into Drupal 8.
-
-* install an empty instance of Drupal 8
-* enable the migration module
-* use the web interface to point at Drupal 7
-
-### notes
-* CAS                     cannot be installed during migration
-* External Authentication cannot be installed during migration
-
-#### Basic Page renamed
-The name of the default content type, "Basic Page" has been renamed
-to "Basic page".  This means that after the migration, we end up with
-two content types: "Basic Page" and "Basic page".  We can just delete
-the new Drupal 8 "Basic page", and use what we migrated.
-
-#### Plain text fields
-We have quite a few fields that we created in order to store identifiers
-for integrations.  These fields were plain text in Drupal 7; however, the
-migration brings them across as HTML formatted fields.
-
-Rather than try and write complicated custom migration code, it might be
-easiest to just delete the fields that come across and recreate them in
-Drupal 8.
-
-* Calendar ID fields
-* Department directory DN's
-
 ## Modules to enable/disable
 Once you have the default installation finished, you'll want to enable modules
-we're using - and disable moduels we're not going to use.  Disabling moduels
+we're using - and disable modules we're not going to use.  Disabling modules
 that are not in use will greatly improve the performance of Drupal.
 
 ### Enable
@@ -101,9 +99,3 @@ that are not in use will greatly improve the performance of Drupal.
 This project is based on an initial setup of Drupal's composer installation:
 
 https://github.com/drupal-composer/drupal-project
-
-## Work in progress:
-The following role is an attempt to specify the full configuration using ansible, but it is incomplete at this point (2017.05.15):
-
-https://github.com/City-of-Bloomington/ansible-role-drupal
-
