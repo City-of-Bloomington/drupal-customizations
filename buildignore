@@ -4,5 +4,6 @@ mockups
 .git/
 .git*
 .sass-cache
+/web/sites/default
 /web/themes/contrib/cob/vendor
 settings.php
