@@ -37,7 +37,7 @@
                 "reference": "8.x-dev"
             },
             "type": "drupal-module",
-            "time": "2018-07-06T15:44:26+00:00"
+            "time": "2018-07-09T20:26:22+00:00"
         },
         {
             "name": "City-of-Bloomington/ckan",
@@ -70,7 +70,7 @@
                 "reference": "master"
             },
             "type": "drupal-module",
-            "time": "2018-07-06T15:50:07+00:00"
+            "time": "2018-07-09T20:09:20+00:00"
         },
         {
             "name": "City-of-Bloomington/interactivemap",
@@ -92,7 +92,7 @@
                 "reference": "master"
             },
             "type": "drupal-module",
-            "time": "2018-07-06T14:40:07+00:00"
+            "time": "2018-07-09T19:57:20+00:00"
         },
         {
             "name": "City-of-Bloomington/promt",
@@ -103,7 +103,7 @@
                 "reference": "master"
             },
             "type": "drupal-module",
-            "time": "2018-07-06T15:55:15+00:00"
+            "time": "2018-07-09T20:04:37+00:00"
         },
         {
             "name": "alchemy/zippy",
