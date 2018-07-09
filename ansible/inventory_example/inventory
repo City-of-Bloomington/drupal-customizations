@@ -1,0 +1,14 @@
+[linux]
+drupalhost
+
+[apache]
+drupalhost
+
+[php]
+drupalhost
+
+[mysql]
+drupalhost
+
+[drupal]
+drupalhost

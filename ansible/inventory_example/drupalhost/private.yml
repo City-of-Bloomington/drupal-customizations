@@ -1,0 +1,7 @@
+# This file is where you put all the secret stuff.
+# It should be encrypted with Ansible Vault.
+# It is unencrypted here only as an example.
+---
+vault_drupal_db:
+  pass: "secret password"
+...

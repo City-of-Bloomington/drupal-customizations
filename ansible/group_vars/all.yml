@@ -1,0 +1,15 @@
+---
+drupal_archive_path: "../build/drupal.tar.gz"
+drupal_install_path: "/srv/sites/drupal"
+drupal_backup_path:  "/srv/backups/drupal"
+drupal_site_home:    "/srv/data/drupal"
+
+drupal_base_uri: "/"
+drupal_base_url: "https://{{ ansible_host }}{{ drupal_base_uri }}"
+
+drupal_db:
+  host: "localhost"
+  name: "drupal"
+  user: "drupal"
+  pass: "{{ vault_drupal_db.pass }}"
+...
