@@ -4,6 +4,7 @@ mockups
 .git/
 .git*
 .sass-cache
+/ansible/roles
 /web/sites/default
 /web/themes/contrib/cob/vendor
 settings.php

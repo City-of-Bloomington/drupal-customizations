@@ -1,13 +1,14 @@
 #!/bin/bash
 # Creates a tarball containing a full snapshot of the data in the site
 #
-# @copyright Copyright 2011-2017 City of Bloomington, Indiana
+# @copyright 2011-2018 City of Bloomington, Indiana
 # @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.txt
 APPLICATION_NAME=drupal
-MYSQLDUMP=/usr/bin/mysqldump
 MYSQL_CREDENTIALS=/etc/cron.daily/backup.d/$APPLICATION_NAME.cnf
 BACKUP_DIR=/srv/backups/$APPLICATION_NAME
 APPLICATION_HOME=/srv/sites/$APPLICATION_NAME
+SITE_HOME=/srv/data/$APPLICATION_NAME
+LOG_FILE=/var/log/cron/$APPLICATION_NAME
 
 MYSQL_DBNAME=$APPLICATION_NAME
 
@@ -24,16 +25,14 @@ cd $BACKUP_DIR
 mkdir $today
 
 # Dump the database
-$MYSQLDUMP --defaults-extra-file=$MYSQL_CREDENTIALS $MYSQL_DBNAME > $today/$MYSQL_DBNAME.sql
-
-# Copy any data directories into this directory, so they're backed up, too.
-# For example, if we had a media directory....
-cp -R $APPLICATION_HOME/web/sites/default $today/default
-
+mysqldump --defaults-extra-file=$MYSQL_CREDENTIALS $MYSQL_DBNAME > $SITE_HOME/$MYSQL_DBNAME.sql
 
 # Tarball the Data
-tar czf $today.tar.gz $today
-rm -Rf $today
+# Dereference the symlink for the default site to the data dir
+cd $APPLICATION_HOME
+cd ..
+tar -czhf $today.tar.gz $APPLICATION_NAME
+mv $today.tar.gz $BACKUP_DIR
 
 # Purge any backup tarballs that are too old
 for file in `ls`
@@ -44,3 +43,5 @@ do
 		rm $file
 	fi
 done
+
+touch $LOG_FILE
