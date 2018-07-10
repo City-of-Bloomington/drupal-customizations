@@ -1,0 +1,3 @@
+[mysqldump]
+user={{ drupal_db.user }}
+password={{ drupal_db.pass }}

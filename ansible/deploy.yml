@@ -23,6 +23,7 @@
         - "{{ drupal_install_path }}"
         - "{{ drupal_backup_path  }}"
         - "{{ drupal_site_home    }}"
+        - "/var/log/cron"
 
     - name: "Create mysql database"
       mysql_db:
@@ -69,6 +70,18 @@
         dest: "/etc/apache2/sites-enabled/conf.d/drupal.conf"
       notify: "apache_restart"
       when: drupal_base_uri != "/"
+
+    - name: "Install Backup CRON"
+      template:
+        src: "backup.sh"
+        dest: "/etc/cron.daily/backup.d/drupal"
+        mode: "0755"
+
+    - name: "Configure backup credentials"
+      template:
+        src: "backup.cnf"
+        dest: "/etc/cron.daily/backup.d/drupal.cnf"
+        mode: "0600"
 
     - name: "Update application permissions"
       file:
