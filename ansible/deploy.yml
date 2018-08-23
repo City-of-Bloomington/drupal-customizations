@@ -83,6 +83,12 @@
         dest: "/etc/cron.daily/backup.d/drupal.cnf"
         mode: "0600"
 
+    - name: "Install Cache CRON"
+      template:
+        src: "cache-rebuild.sh"
+        dest: "/etc/cron.hourly/drupal.sh"
+        mode: "0755"
+
     - name: "Update application permissions"
       file:
         path:    "{{ item }}"
