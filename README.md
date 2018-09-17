@@ -45,10 +45,10 @@ composer update
 ```
 
 ### Build and Deploy
-The build script requires NodeJS and node-sass to compile the CSS.  Once you have node-sass installed, you can run the build script.  The will compile all the CSS and create a clean build directory.  This will strip out all the Git repo stuff, resulting in a much, much smaller size for the site installation.
+The build requires pysassc to compile the CSS.  Once you have pysassc installed, you can run make.  The will compile all the CSS and create a clean build directory.  This will strip out all the Git repo stuff, resulting in a much, much smaller size for the site installation.
 ```
 cd drupal
-./build.sh
+make
 ```
 
 I usually use Rsync to deploy the `build` directory.
