@@ -1,10 +1,10 @@
-SASS := $(shell command -v pysassc 2> /dev/null)
+SASS := $(shell command -v sassc 2> /dev/null)
 
 default: clean compile package
 
 deps:
 ifndef SASS
-	$(error "pysassc is not installed")
+	$(error "sassc is not installed")
 endif
 
 clean:
@@ -12,8 +12,8 @@ clean:
 	mkdir build
 
 compile: deps
-	cd web/themes/contrib/cob/css && pysassc -t compact -m screen.scss screen.css
+	cd web/themes/contrib/cob/css && sassc -t compact -m screen.scss screen.css
 
 package:
-	rsync -rl --exclude-from=buildignore --delete . build/drupal
+	rsync -rl --exclude-from=buildignore . build/drupal
 	cd build && tar czf drupal.tar.gz drupal
