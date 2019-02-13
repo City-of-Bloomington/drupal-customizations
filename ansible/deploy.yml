@@ -1,17 +1,18 @@
 ---
-- hosts: drupal
-  become: yes
+- hosts: "drupal"
+  become: "yes"
   roles:
-    - City-of-Bloomington.mysql
-    - City-of-Bloomington.php
+    - "City-of-Bloomington.mysql"
+    - "City-of-Bloomington.php"
 
   tasks:
     - name: "Install distro packages for Drupal"
       apt:
-        name: "{{ item }}"
+        name: "{{ packages }}"
         state: "present"
-      with_items:
-        - "php-mysql"
+      vars:
+        packages:
+          - "php-mysql"
 
     - name: "Create installation directories"
       file:
@@ -29,33 +30,33 @@
       mysql_db:
         config_file: "{{ mysql_defaults_extra_file }}"
         name: "{{ drupal_db.name }}"
-        state: present
-      no_log: True
+        state: "present"
+      no_log: "True"
 
     - name: "Create mysql user for site"
       mysql_user:
         name:     "{{ drupal_db.user }}"
         password: "{{ drupal_db.pass }}"
         priv:     "{{ drupal_db.name }}.*:ALL"
-        state: present
+        state: "present"
         config_file: "{{ mysql_defaults_extra_file }}"
-      no_log: True
+      no_log: "True"
 
     - name: "Extract release"
       unarchive:
         src: "{{ drupal_archive_path }}"
-        dest: /usr/local/src
-      register: release
+        dest: "/usr/local/src"
+      register: "release"
 
     - name: "Remove old release"
       file:
         path: "{{ drupal_install_path }}"
         state: "absent"
-      when: release.changed
+      when: "release.changed"
 
     - name: "Install release"
       command: "rsync -rl /usr/local/src/drupal/ {{ drupal_install_path }}/"
-      when: release.changed
+      when: "release.changed"
 
     - name: "Install apache default config"
       template:
