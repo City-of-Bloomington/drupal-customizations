@@ -64,6 +64,8 @@
         dest: "/etc/apache2/sites-available/000-default.conf"
       notify: "apache_restart"
       when: drupal_base_uri == "/"
+      tags:
+        - "apache_conf"
 
     - name: "Install apache site config"
       template:
@@ -71,6 +73,8 @@
         dest: "/etc/apache2/sites-enabled/conf.d/drupal.conf"
       notify: "apache_restart"
       when: drupal_base_uri != "/"
+      tags:
+        - "apache_conf"
 
     - name: "Install Backup CRON"
       template:
