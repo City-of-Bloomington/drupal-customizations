@@ -45,7 +45,7 @@ composer update
 ```
 
 ### Build and Deploy
-The build requires pysassc to compile the CSS.  Once you have pysassc installed, you can run make.  The will compile all the CSS and create a clean build directory.  This will strip out all the Git repo stuff, resulting in a much, much smaller size for the site installation.
+The build requires sassc to compile the CSS.  Once you have sassc installed, you can run make.  The will compile all the CSS and create a clean build directory.  This will strip out all the Git repo stuff, resulting in a much, much smaller size for the site installation.
 ```
 cd drupal
 make
