@@ -17,7 +17,7 @@
         {
             "type": "package",
             "package": {
-                "name": "City-of-Bloomington/archive",
+                "name": "city-of-bloomington/archive",
                 "type": "drupal-module",
                 "version": "dev",
                 "source": {
@@ -30,7 +30,7 @@
         {
             "type": "package",
             "package": {
-                "name": "City-of-Bloomington/asm",
+                "name": "city-of-bloomington/asm",
                 "type": "drupal-module",
                 "version": "dev",
                 "source": {
@@ -43,7 +43,7 @@
         {
             "type": "package",
             "package": {
-                "name": "City-of-Bloomington/calendar",
+                "name": "city-of-bloomington/calendar",
                 "type": "drupal-module",
                 "version": "dev",
                 "source": {
@@ -56,7 +56,7 @@
         {
             "type": "package",
             "package": {
-                "name": "City-of-Bloomington/ckan",
+                "name": "city-of-bloomington/ckan",
                 "type": "drupal-module",
                 "version": "dev",
                 "source": {
@@ -69,7 +69,7 @@
         {
             "type": "package",
             "package": {
-                "name": "City-of-Bloomington/cob",
+                "name": "city-of-bloomington/cob",
                 "type": "drupal-theme",
                 "version": "dev",
                 "source": {
@@ -82,7 +82,7 @@
         {
             "type": "package",
             "package": {
-                "name": "City-of-Bloomington/directory",
+                "name": "city-of-bloomington/directory",
                 "type": "drupal-module",
                 "version": "dev",
                 "source": {
@@ -95,7 +95,7 @@
         {
             "type": "package",
             "package": {
-                "name": "City-of-Bloomington/interactivemap",
+                "name": "city-of-bloomington/interactivemap",
                 "type": "drupal-module",
                 "version": "dev",
                 "source": {
@@ -108,7 +108,7 @@
         {
             "type": "package",
             "package": {
-                "name": "City-of-Bloomington/onboard",
+                "name": "city-of-bloomington/onboard",
                 "type": "drupal-module",
                 "version": "dev",
                 "source": {
@@ -121,7 +121,7 @@
         {
             "type": "package",
             "package": {
-                "name": "City-of-Bloomington/promt",
+                "name": "city-of-bloomington/promt",
                 "type": "drupal-module",
                 "version": "dev",
                 "source": {
@@ -153,15 +153,15 @@
         "drupal/video_embed_field": "~1.5",
         "drupal/video_embed_facebook": "~1.3",
         "google/apiclient": "~2.0",
-        "City-of-Bloomington/archive": "dev",
-        "City-of-Bloomington/asm": "dev",
-        "City-of-Bloomington/calendar": "dev",
-        "City-of-Bloomington/ckan": "dev",
-        "City-of-Bloomington/cob": "dev",
-        "City-of-Bloomington/directory": "dev",
-        "City-of-Bloomington/interactivemap": "dev",
-        "City-of-Bloomington/onboard": "dev",
-        "City-of-Bloomington/promt": "dev"
+        "city-of-bloomington/archive": "dev",
+        "city-of-bloomington/asm": "dev",
+        "city-of-bloomington/calendar": "dev",
+        "city-of-bloomington/ckan": "dev",
+        "city-of-bloomington/cob": "dev",
+        "city-of-bloomington/directory": "dev",
+        "city-of-bloomington/interactivemap": "dev",
+        "city-of-bloomington/onboard": "dev",
+        "city-of-bloomington/promt": "dev"
     },
     "require-dev": {
         "behat/mink": "~1.7",
