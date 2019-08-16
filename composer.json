@@ -23,7 +23,7 @@
                 "source": {
                     "type": "git",
                     "url": "https://github.com/City-of-Bloomington/drupal-module-archive",
-                    "reference": "8.x-dev"
+                    "reference": "master"
                 }
             }
         },
