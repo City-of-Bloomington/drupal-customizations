@@ -17,18 +17,17 @@ foreach ($TYPES as $bundle => $type) {
     if (!is_dir($dir)) { mkdir($dir, 0766, true); }
 
     $out = fopen("./files/$type.csv", 'w');
-    $sql = "select i.entity_id,
-                   i.field_image_alt,
-                   i.field_image_title,
-                   f.uuid,
-                   f.filename,
-                   f.uri,
-                   f.filemime,
-                   f.filesize,
-                   f.created,
-                   f.changed
-            from media__field_image i
-            join file_managed       f on f.fid=i.field_image_target_id
+    $sql = "select f.filename, f.uri, f.filemime, f.created, f.filesize,
+                   i.field_image_title, i.field_image_alt
+            from (select min(fid)      as fid,
+                         min(filename) as filename,
+                         min(uri)      as uri,
+                         min(filemime) as filemime,
+                         min(created)  as created,
+                         filesize
+                  from file_managed
+                  group by filesize) f
+            join media__field_image  i on f.fid=i.field_image_target_id
             where bundle=?
             limit 20";
     $query   = $pdo->prepare($sql);
