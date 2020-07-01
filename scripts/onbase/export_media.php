@@ -13,10 +13,10 @@ $FORMATS = include './formats.php';
 $conf    = include './config.php';
 $pdo     = new PDO($conf['db'], $conf['user'], $conf['pass']);
 foreach ($TYPES as $bundle => $type) {
-    $dir = "./files/$type";
+    $dir = "./media/$type";
     if (!is_dir($dir)) { mkdir($dir, 0766, true); }
 
-    $out = fopen("./files/$type.csv", 'w');
+    $out = fopen("./media/$type.csv", 'w');
     $sql = "select f.filename, f.uri, f.filemime, f.created, f.filesize,
                    i.field_image_title, i.field_image_alt
             from (select min(fid)      as fid,
@@ -38,7 +38,7 @@ foreach ($TYPES as $bundle => $type) {
     foreach ($result as $r) {
         $drupal_file = str_replace('public://', '/srv/data/drupal/files/', $r['uri']);
         $export_file = basename($drupal_file);
-        $export_path = str_replace('./files/', '', $dir);
+        $export_path = str_replace('./media/', '', $dir);
 
         copy($drupal_file, "$dir/$export_file");
 
