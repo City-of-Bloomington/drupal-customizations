@@ -14,42 +14,15 @@
             "type": "composer",
             "url": "https://packages.drupal.org/8"
         },
-        {
-            "type": "vcs",
-            "url":  "https://github.com/City-of-Bloomington/drupal-module-archive"
-        },
-        {
-            "type": "vcs",
-            "url":  "https://github.com/City-of-Bloomington/drupal-module-asm"
-        },
-        {
-            "type": "vcs",
-            "url":  "https://github.com/City-of-Bloomington/drupal-module-calendar"
-        },
-        {
-            "type": "vcs",
-            "url":  "https://github.com/City-of-Bloomington/drupal-module-ckan"
-        },
-        {
-            "type": "vcs",
-            "url":  "https://github.com/City-of-Bloomington/drupal-theme-cob"
-        },
-        {
-            "type": "vcs",
-            "url":  "https://github.com/City-of-Bloomington/drupal-module-directory"
-        },
-        {
-            "type": "vcs",
-            "url":  "https://github.com/City-of-Bloomington/drupal-module-interactivemap"
-        },
-        {
-            "type": "vcs",
-            "url":  "https://github.com/City-of-Bloomington/drupal-module-onboard"
-        },
-        {
-            "type": "vcs",
-            "url":  "https://github.com/City-of-Bloomington/drupal-module-promt"
-        }
+        { "type":"vcs", "url":"https://github.com/City-of-Bloomington/drupal-theme-cob"            },
+        { "type":"vcs", "url":"https://github.com/City-of-Bloomington/drupal-module-archive"       },
+        { "type":"vcs", "url":"https://github.com/City-of-Bloomington/drupal-module-asm"           },
+        { "type":"vcs", "url":"https://github.com/City-of-Bloomington/drupal-module-calendar"      },
+        { "type":"vcs", "url":"https://github.com/City-of-Bloomington/drupal-module-ckan"          },
+        { "type":"vcs", "url":"https://github.com/City-of-Bloomington/drupal-module-directory"     },
+        { "type":"vcs", "url":"https://github.com/City-of-Bloomington/drupal-module-interactivemap"},
+        { "type":"vcs", "url":"https://github.com/City-of-Bloomington/drupal-module-onboard"       },
+        { "type":"vcs", "url":"https://github.com/City-of-Bloomington/drupal-module-promt"         }
     ],
     "require": {
         "composer/installers": "^1.2",
@@ -68,6 +41,7 @@
         "drupal/media_entity_image": "~1.2",
         "drupal/paragraphs": "~1.0",
         "drupal/pathauto": "~1.0",
+        "drupal/search_api_solr": "~4.0",
         "drupal/smart_trim": "~1.0",
         "drupal/video_embed_field": "~1.5",
         "drupal/video_embed_facebook": "~1.3",
