@@ -27,3 +27,9 @@ okay to delete the tables.
     * Entity
 
 * Remove unused modules from composer.json
+
+* Upgrade modules to support Drupal 9
+    * CAS 2
+    * Geolocation 3
+    * Linkit 6
+Don't forget to run drush updatedb
