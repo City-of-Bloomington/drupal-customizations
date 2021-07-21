@@ -29,16 +29,16 @@
         "cweagans/composer-patches": "~1.7",
         "drush/drush": "~10.0",
         "drupal/cas": "~2.0-dev",
-        "drupal/console": "^1.0.1",
-        "drupal/core-composer-scaffold": "^8.9",
-        "drupal/core-recommended": "^8.9",
+        "drupal/core-composer-scaffold": "^9",
+        "drupal/core-project-message":   "^9",
+        "drupal/core-recommended":       "^9",
         "drupal/geolocation": "~3",
         "drupal/inline_entity_form": "~1.0",
         "drupal/linkit": "~6.0-dev",
         "drupal/paragraphs": "~1.0",
         "drupal/pathauto": "~1.0",
         "drupal/smart_trim": "~1.0",
-        "drupal/upgrade_status": "^2.0",
+        "drupal/upgrade_status": "^3",
         "google/apiclient": "~2.0",
         "city-of-bloomington/archive":        "dev-master",
         "city-of-bloomington/asm":            "dev-main",
@@ -46,19 +46,13 @@
         "city-of-bloomington/cob":            "dev-master",
         "city-of-bloomington/directory":      "dev-master",
         "city-of-bloomington/interactivemap": "dev-master",
-        "city-of-bloomington/onboard":        "8.x-dev",
+        "city-of-bloomington/onboard":        "dev-main",
         "city-of-bloomington/promt":          "dev-main",
         "webflo/drupal-finder": "^1.0.0",
         "webmozart/path-util": "^2.3"
     },
     "require-dev": {
-        "behat/mink": "~1.7",
-        "behat/mink-goutte-driver": "~1.2",
-        "jcalderonzumba/gastonjs": "~1.0.2",
-        "jcalderonzumba/mink-phantomjs-driver": "~0.3.1",
-        "mikey179/vfsstream": "~1.2",
-        "phpunit/phpunit": "~4.8",
-        "symfony/css-selector": "~2.8"
+        "drupal/core-dev": "^9"
     },
     "conflict": {
         "drupal/drupal": "*"
