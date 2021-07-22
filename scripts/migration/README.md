@@ -3,6 +3,9 @@
     * content images
     * video
     * image browser
+* Upgrade to 8.9.16
+    * Upgrade to Drush 10
+
 * Purge Revisions  (2 hours)
 * Purge Media
     * Delete all fields from content types (and taxonomy)
@@ -10,20 +13,21 @@
     * Purge unused files
 
 Purge all the deleted stuff
-`vendor/bin/drush eval "field_purge_batch(1000)"`
+`vendor/bin/drush eval "field_purge_batch(100000)"`
 
 There will likely be leftover field_deleted_* tables
 If drush thinks everything's deleted, and the tables are empty, then it's
 okay to delete the tables.
 `vendor/bin/drush eval "var_dump(\Drupal::state()->get('field.storage.deleted'))"`
 
-* Upgrade to 8.9.16
-    * Upgrade to Drush 10
 
 * Uninstall modules
     * Media
     * Video Embed
-    * Entity
+    * Entity Browser
+    * Directory
+    * OnBoard
+    * Promt
 
 * Remove unused modules from composer.json
 
