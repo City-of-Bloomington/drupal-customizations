@@ -39,6 +39,7 @@
         "drupal/paragraphs": "~1.0",
         "drupal/pathauto": "~1.0",
         "drupal/smart_trim": "~1.0",
+        "drupal/search_api_solr": "^4.2",
         "drupal/upgrade_status": "^3",
         "google/apiclient": "~2.0",
         "city-of-bloomington/archive":        "dev-master",

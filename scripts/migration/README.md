@@ -60,3 +60,6 @@ Custom modules relied on Drupal 8 plugin contexts.  Drupal 9 changed how the blo
     * Promt
         * Location activities
         * Catgegory activities
+* Grant permissions to Media
+
+The new media system does not have any role permissions assigned.  We'll need to run through all the permissions and grant them to appropriate roles.
