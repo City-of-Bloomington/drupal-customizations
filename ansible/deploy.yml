@@ -13,6 +13,7 @@
       vars:
         packages:
           - "php-mysql"
+          - "php-gd"
 
     - name: "Create installation directories"
       file:
