@@ -14,6 +14,7 @@
         packages:
           - "php-mysql"
           - "php-gd"
+          - 'poppler-utils'
 
     - name: "Create installation directories"
       file:
@@ -61,8 +62,13 @@
 
     - name: "Install apache default config"
       template:
-        src: "default_apache.conf"
+        src: "{{ lookup('first_found', paths ) }}"
         dest: "/etc/apache2/sites-available/000-default.conf"
+      vars:
+        paths:
+          - "{{ inventory_dir }}/host_vars/{{ inventory_hostname }}/templates/000-default.conf"
+          - "{{ inventory_dir }}/group_vars/drupal/templates/000-default.conf"
+          - "{{  playbook_dir }}/templates/000-default.conf"
       notify: "apache_restart"
       when: drupal_base_uri == "/"
       tags:
@@ -70,8 +76,13 @@
 
     - name: "Install apache site config"
       template:
-        src: "subdir_apache.conf"
+        src: "{{ lookup('first_found', paths ) }}"
         dest: "/etc/apache2/sites-enabled/conf.d/drupal.conf"
+      vars:
+        paths:
+          - "{{ inventory_dir }}/host_vars/{{ inventory_hostname }}/templates/drupal.conf"
+          - "{{ inventory_dir }}/group_vars/drupal/templates/drupal.conf"
+          - "{{  playbook_dir }}/templates/drupal.conf"
       notify: "apache_restart"
       when: drupal_base_uri != "/"
       tags:
