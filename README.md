@@ -1,75 +1,95 @@
-<img alt="Drupal Logo" src="https://www.drupal.org/files/Wordmark_blue_RGB.png" height="60px">
+# City of Bloomington Drupal Site
 
-Drupal is an open source content management platform supporting a variety of
-websites ranging from personal weblogs to large community-driven websites. For
-more information, visit the Drupal website, [Drupal.org][Drupal.org], and join
-the [Drupal community][Drupal community].
+The City of Bloomington is migrating our site to use Drupal as our content management system.
 
-## Contributing
+## Requirements
+Drupal runs on a standard Linux-Apache-MySQL-PHP (LAMP) stack. Instructions for setting up those requirements are beyond the scope of this project, but we do maintain separate repositories to document this:
 
-Drupal is developed on [Drupal.org][Drupal.org], the home of the international
-Drupal community since 2001!
+https://github.com/City-of-Bloomington/system-playbooks
 
-[Drupal.org][Drupal.org] hosts Drupal's [GitLab repository][GitLab repository],
-its [issue queue][issue queue], and its [documentation][documentation]. Before
-you start working on code, be sure to search the [issue queue][issue queue] and
-create an issue if your aren't able to find an existing issue.
+Specifically, these two roles should yield a working foundation:
 
-Every issue on Drupal.org automatically creates a new community-accessible fork
-that you can contribute to. Learn more about the code contribution process on
-the [Issue forks & merge requests page][issue forks].
+https://github.com/City-of-Bloomington/ansible-role-php
+https://github.com/City-of-Bloomington/ansible-role-mysql
 
-## Usage
+## Installation
+* clone the project locally
+* run composer update
+* build and deploy
+* create the database
+* add Apache configuration
 
-For a brief introduction, see [USAGE.txt](/core/USAGE.txt). You can also find
-guides, API references, and more by visiting Drupal's [documentation
-page][documentation].
+### Clone from Github
+```bash
+git clone https://github.com/City-of-Bloomington/drupal-customizations.git drupal
+```
 
-You can quickly extend Drupal's core feature set by installing any of its
-[thousands of free and open source modules][modules]. With Drupal and its
-module ecosystem, you can often build most or all of what your project needs
-before writing a single line of code.
+### Composer update
+When you are applying updates to Drupal, it is vitally important to clear the drupal cache before running `composer update`.  Drupal's customizations to composer do not check for fresh versions from Github.  **You must manually delete the old modules and clear composer's cache**.
 
-## Changelog
+```bash
+cd drupal
+composer clear-cache
+cd web/modules/contrib
+rm -Rf *
+cd ../../themes/contrib
+rm -Rf *
+cd ../../../
+composer update
+```
 
-Drupal keeps detailed [change records][changelog]. You can search Drupal's
-changes for a record of every notable breaking change and new feature since
-2011.
+### Build and Deploy
+The build requires sassc to compile the CSS.  Once you have sassc installed, you can run make.  The will compile all the CSS and create a clean build directory.  This will strip out all the Git repo stuff, resulting in a much, much smaller size for the site installation.
+```
+cd drupal
+make
+```
 
-## Security
+I usually use Rsync to deploy the `build` directory.
+```
+cd drupal
+rsync -rlve ssh ./build/ drupal.server.org:/srv/sites/drupal/
+```
 
-For a list of security announcements, see the [Security advisories
-page][Security advisories] (available as [an RSS feed][security RSS]). This
-page also describes how to subscribe to these announcements via email.
+### Create the database
+```mysql
+create database drupal;
+grant all privileges on drupal.* to drupal@localhost identified by 'password';
+flush privileges;
+```
 
-For information about the Drupal security process, or to find out how to report
-a potential security issue to the Drupal security team, see the [Security team
-page][security team].
+### Apache configuration
+```apache
+Alias /drupal  "/srv/sites/drupal/web"
+<Directory     "/srv/sites/drupal/web">
+    Options FollowSymLinks
+    AllowOverride None
+    Require all granted
 
-## Need a helping hand?
+    Include /srv/sites/drupal/web/.htaccess
+</Directory>
+```
 
-Visit the [Support page][support] or browse [over a thousand Drupal
-providers][service providers] offering design, strategy, development, and
-hosting services.
+## Modules to enable/disable
+Once you have the default installation finished, you'll want to enable modules
+we're using - and disable modules we're not going to use.  Disabling modules
+that are not in use will greatly improve the performance of Drupal.
 
-## Legal matters
+### Enable
+* CAS
+* Pathauto
 
-Know your rights when using Drupal by reading Drupal core's
-[license](/core/LICENSE.txt).
+### Disable
+* Comment
+* Contact
+* Contextual Links
+* History
+* Quick Edit
+* RDF
+* Tour
 
-Learn about the [Drupal trademark and logo policy here][trademark].
+## Source
 
-[Drupal.org]: https://www.drupal.org
-[Drupal community]: https://www.drupal.org/community
-[GitLab repository]: https://git.drupalcode.org/project/drupal
-[issue queue]: https://www.drupal.org/project/issues/drupal
-[issue forks]: https://www.drupal.org/drupalorg/docs/gitlab-integration/issue-forks-merge-requests
-[documentation]: https://www.drupal.org/documentation
-[changelog]: https://www.drupal.org/list-changes/drupal
-[modules]: https://www.drupal.org/project/project_module
-[security advisories]: https://www.drupal.org/security
-[security RSS]: https://www.drupal.org/security/rss.xml
-[security team]: https://www.drupal.org/drupal-security-team
-[service providers]: https://www.drupal.org/drupal-services
-[support]: https://www.drupal.org/support
-[trademark]: https://www.drupal.com/trademark
+This project is based on an initial setup of Drupal's composer installation:
+
+https://github.com/drupal-composer/drupal-project
