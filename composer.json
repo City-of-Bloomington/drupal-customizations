@@ -17,7 +17,6 @@
         { "type":"vcs", "url":"https://github.com/City-of-Bloomington/drupal-module-archive"        },
         { "type":"vcs", "url":"https://github.com/City-of-Bloomington/drupal-module-asm"            },
         { "type":"vcs", "url":"https://github.com/City-of-Bloomington/drupal-module-calendar"       },
-        { "type":"vcs", "url":"https://github.com/City-of-Bloomington/drupal-module-ckan"           },
         { "type":"vcs", "url":"https://github.com/City-of-Bloomington/drupal-theme-cob"             },
         { "type":"vcs", "url":"https://github.com/City-of-Bloomington/drupal-module-directory"      },
         { "type":"vcs", "url":"https://github.com/City-of-Bloomington/drupal-module-interactivemap" },
@@ -89,6 +88,15 @@
             "web/profiles/contrib/{$name}": ["type:drupal-profile"],
             "web/themes/contrib/{$name}": ["type:drupal-theme"],
             "drush/contrib/{$name}": ["type:drupal-drush"]
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "cweagans/composer-patches": true,
+            "drupal/core-composer-scaffold": true,
+            "drupal/core-project-message": true
         }
     }
 }

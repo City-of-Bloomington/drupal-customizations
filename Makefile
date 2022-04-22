@@ -1,17 +1,13 @@
-SASS := $(shell command -v sassc 2> /dev/null)
+REQS := sassc
+K := $(foreach r, ${REQS}, $(if $(shell command -v ${r} 2> /dev/null), '', $(error "${r} not installed")))
 
 default: clean compile package
-
-deps:
-ifndef SASS
-	$(error "sassc is not installed")
-endif
 
 clean:
 	rm -Rf build
 	mkdir build
 
-compile: deps
+compile:
 	cd web/themes/contrib/cob/css && sassc -t compact -m screen.scss screen.css
 
 package:
