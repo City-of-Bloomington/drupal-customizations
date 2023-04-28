@@ -1,5 +1,13 @@
 <?php
 /**
+ * Raw database queries to find content on the site
+ *
+ * This script must be copied to /srv/sites/drupal before running.
+ *
+ * This script does not need drush and can be run using php directly:
+ * cd /srv/sites/drupal
+ * php findContent.php
+ *
  * @copyright 2023 City of Bloomington, Indiana
  * @license https://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE
  */
@@ -24,8 +32,8 @@ $tables = [
     'paragraph__field_info_link' => 'field_info_link_uri'
 ];
 foreach ($tables as $table=>$column) {
-    $sql   = "select bundle, entity_id from $table where $column like ?";
-    $query = $db->query($sql, [$pattern]);
+    $sql    = "select bundle, entity_id from $table where $column like ?";
+    $query  = $db->query($sql, [$pattern]);
     $result = $query->fetchAll();
     foreach ($result as $row) {
         echo "{$row->bundle} {$row->entity_id}\n";
