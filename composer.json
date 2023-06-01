@@ -46,7 +46,6 @@
         "city-of-bloomington/calendar":       "dev-main",
         "city-of-bloomington/cob":            "dev-master",
         "city-of-bloomington/directory":      "dev-master",
-        "city-of-bloomington/interactivemap": "dev-master",
         "city-of-bloomington/onboard":        "dev-main",
         "city-of-bloomington/promt":          "dev-main",
         "webflo/drupal-finder": "^1.0.0",
