@@ -37,6 +37,7 @@
         "drupal/linkit": "~6.0-dev",
         "drupal/paragraphs": "~1.0",
         "drupal/pathauto": "~1.0",
+        "drupal/redirect": "^1",
         "drupal/smart_trim": "~1.0",
         "drupal/search_api_solr": "^4.2",
         "drupal/upgrade_status": "^3",
