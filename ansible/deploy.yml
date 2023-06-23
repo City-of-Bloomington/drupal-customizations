@@ -60,6 +60,12 @@
       command: "rsync -rl /usr/local/src/drupal/ {{ drupal_install_path }}/"
       when: "release.changed"
 
+    - name: 'Link drupal config'
+      file:
+        state: 'link'
+        src:  "{{ drupal_site_home }}"
+        dest: "{{ drupal_install_path }}/web/sites/default"
+
     - name: "Install apache default config"
       template:
         src: "{{ lookup('first_found', paths ) }}"
@@ -88,23 +94,15 @@
       tags:
         - "apache_conf"
 
-    - name: "Install Backup CRON"
+    - name: "Install CRON scripts"
       template:
-        src: "backup.sh"
-        dest: "/etc/cron.daily/backup.d/drupal"
+        src:  "{{ item.src  }}"
+        dest: "{{ item.dest }}"
         mode: "0755"
-
-    - name: "Configure backup credentials"
-      template:
-        src: "backup.cnf"
-        dest: "/etc/cron.daily/backup.d/drupal.cnf"
-        mode: "0600"
-
-    - name: "Install Cache CRON"
-      template:
-        src: "cache-rebuild.sh"
-        dest: "/etc/cron.hourly/drupal.sh"
-        mode: "0755"
+      loop:
+        - { src: 'backup.sh',        dest: '/etc/cron.daily/backup.d/drupal' }
+        - { src: 'asm.sh',           dest: '/etc/cron.weekly/asm' }
+        - { src: 'cache-rebuild.sh', dest: '/etc/cron.hourly/drupal' }
 
     - name: "Update application permissions"
       file:
