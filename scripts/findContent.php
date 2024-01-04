@@ -32,10 +32,14 @@ $tables = [
     'paragraph__field_info_link' => 'field_info_link_uri'
 ];
 foreach ($tables as $table=>$column) {
-    $sql    = "select bundle, entity_id from $table where $column like ?";
+    $sql    = "select b.entity_id,
+                      a.alias
+               from $table b
+               left join path_alias a on a.`path`=concat('/node/', b.entity_id)
+               where b.$column like ?";
     $query  = $db->query($sql, [$pattern]);
     $result = $query->fetchAll();
     foreach ($result as $row) {
-        echo "{$row->bundle} {$row->entity_id}\n";
+        echo "https://bloomington.in.gov{$row->alias}\n";
     }
 }
