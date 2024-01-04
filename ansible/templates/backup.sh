@@ -1,14 +1,13 @@
 #!/bin/bash
 # Creates a tarball containing a full snapshot of the data in the site
 #
-# @copyright 2011-2018 City of Bloomington, Indiana
-# @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.txt
+# @copyright 2011-2023 City of Bloomington, Indiana
+# @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE
 APPLICATION_NAME=drupal
-MYSQL_CREDENTIALS=/etc/cron.daily/backup.d/$APPLICATION_NAME.cnf
+MYSQL_CREDENTIALS=/etc/mysql/debian.cnf
 BACKUP_DIR={{ drupal_backup_path }}
 APPLICATION_HOME={{ drupal_install_path }}
 SITE_HOME={{ drupal_site_home }}
-LOG_FILE=/var/log/cron/$APPLICATION_NAME
 
 MYSQL_DBNAME=$APPLICATION_NAME
 
@@ -33,11 +32,9 @@ mv $today.tar.gz $BACKUP_DIR
 cd $BACKUP_DIR
 for file in `ls`
 do
-	atime=`stat -c %Y $file`
-	if [ $(( $now - $atime >= $num_days_to_keep*24*60*60 )) = 1 ]
-	then
-		rm $file
-	fi
+    atime=`stat -c %Y $file`
+    if [ $(( $now - $atime >= $num_days_to_keep*24*60*60 )) = 1 ]
+    then
+        rm $file
+    fi
 done
-
-touch $LOG_FILE
