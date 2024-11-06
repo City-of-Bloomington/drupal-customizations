@@ -25,22 +25,20 @@
     ],
     "require": {
         "composer/installers": "^1.9",
-        "cweagans/composer-patches": "~1.7",
-        "drush/drush": "~10.0",
-        "drupal/cas": "~2.0-dev",
-        "drupal/core-composer-scaffold": "^9",
-        "drupal/core-project-message":   "^9",
-        "drupal/core-recommended":       "^9",
-        "drupal/entity": "~1.2",
-        "drupal/geolocation": "~3",
-        "drupal/inline_entity_form": "~1.0",
-        "drupal/linkit": "~6.0-dev",
-        "drupal/paragraphs": "~1.0",
-        "drupal/pathauto": "~1.0",
-        "drupal/redirect": "^1",
-        "drupal/smart_trim": "~1.0",
-        "drupal/search_api_solr": "^4.2",
-        "drupal/upgrade_status": "^3",
+        "drupal/cas":                    "^2",
+        "drupal/core-composer-scaffold": "^9.5",
+        "drupal/core-project-message":   "^9.5",
+        "drupal/core-recommended":       "^9.5",
+        "drupal/entity":                 "^1",
+        "drupal/geolocation":            "^3",
+        "drupal/inline_entity_form":     "^3",
+        "drupal/linkit":                 "^6",
+        "drupal/paragraphs":             "^1",
+        "drupal/pathauto":               "^1",
+        "drupal/redirect":               "^1",
+        "drupal/smart_trim":             "^2",
+        "drupal/search_api_solr":        "^4",
+        "drupal/upgrade_status":         "^4",
         "google/apiclient": "~2.0",
         "city-of-bloomington/archive":        "dev-master",
         "city-of-bloomington/asm":            "dev-main",
@@ -49,45 +47,33 @@
         "city-of-bloomington/directory":      "dev-master",
         "city-of-bloomington/onboard":        "dev-main",
         "city-of-bloomington/promt":          "dev-main",
-        "webflo/drupal-finder": "^1.0.0",
-        "webmozart/path-util": "^2.3"
+        "webflo/drupal-finder":         "^1",
+        "webmozart/path-util":          "^2.3"
     },
     "require-dev": {
-        "drupal/core-dev": "^9"
+        "drupal/core-dev": "^9.5"
     },
     "conflict": {
         "drupal/drupal": "*"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
-    "autoload": {
-        "classmap": [
-            "scripts/composer/ScriptHandler.php"
-        ]
-    },
-    "scripts": {
-        "drupal-scaffold": "DrupalComposer\\DrupalScaffold\\Plugin::scaffold",
-        "pre-install-cmd": [
-            "DrupalProject\\composer\\ScriptHandler::checkComposerVersion"
-        ],
-        "pre-update-cmd": [
-            "DrupalProject\\composer\\ScriptHandler::checkComposerVersion"
-        ],
-        "post-install-cmd": [
-            "DrupalProject\\composer\\ScriptHandler::createRequiredFiles"
-        ],
-        "post-update-cmd": [
-            "DrupalProject\\composer\\ScriptHandler::createRequiredFiles"
-        ]
-    },
     "extra": {
+        "drupal-scaffold": {
+            "locations": {
+                "web-root": "web/"
+            }
+        },
         "installer-paths": {
-            "web/core": ["type:drupal-core"],
-            "web/libraries/{$name}": ["type:drupal-library"],
-            "web/modules/contrib/{$name}": ["type:drupal-module"],
-            "web/profiles/contrib/{$name}": ["type:drupal-profile"],
-            "web/themes/contrib/{$name}": ["type:drupal-theme"],
-            "drush/contrib/{$name}": ["type:drupal-drush"]
+            "web/core":                       ["type:drupal-core"   ],
+            "web/libraries/{$name}":          ["type:drupal-library"],
+            "web/modules/contrib/{$name}":    ["type:drupal-module" ],
+            "web/profiles/contrib/{$name}":   ["type:drupal-profile"],
+            "web/themes/contrib/{$name}":     ["type:drupal-theme"  ],
+            "drush/Commands/contrib/{$name}": ["type:drupal-drush"  ],
+            "web/modules/custom/{$name}":     ["type:drupal-custom-module" ],
+            "web/profiles/custom/{$name}":    ["type:drupal-custom-profile"],
+            "web/themes/custom/{$name}":      ["type:drupal-custom-theme"  ]
         }
     },
     "config": {
