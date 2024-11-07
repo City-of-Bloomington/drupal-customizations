@@ -8,7 +8,7 @@ clean:
 	mkdir build
 
 compile:
-	cd web/themes/contrib/cob/css && sassc -t compact -m screen.scss screen.css
+	cd web/themes/custom/cob/css && sassc -t compact -m screen.scss screen.css
 
 package:
 	rsync -rl --exclude-from=buildignore . build/drupal
