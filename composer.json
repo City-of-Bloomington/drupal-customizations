@@ -46,9 +46,7 @@
         "city-of-bloomington/cob":            "dev-master",
         "city-of-bloomington/directory":      "dev-master",
         "city-of-bloomington/onboard":        "dev-main",
-        "city-of-bloomington/promt":          "dev-main",
-        "webflo/drupal-finder":         "^1",
-        "webmozart/path-util":          "^2.3"
+        "city-of-bloomington/promt":          "dev-main"
     },
     "require-dev": {
         "drupal/core-dev": "^9.5"
