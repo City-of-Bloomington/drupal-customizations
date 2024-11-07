@@ -1,14 +1,4 @@
 {
-    "name": "drupal-composer/drupal-project",
-    "description": "Project template for Drupal 8 projects with composer",
-    "type": "project",
-    "license": "GPL-2.0+",
-    "authors": [
-        {
-            "name": "",
-            "role": ""
-        }
-    ],
     "repositories": [
         {
             "type": "composer",
@@ -24,11 +14,11 @@
         { "type":"vcs", "url":"https://github.com/City-of-Bloomington/drupal-module-promt"          }
     ],
     "require": {
-        "composer/installers": "^1.9",
+        "composer/installers":           "^2",
         "drupal/cas":                    "^2",
-        "drupal/core-composer-scaffold": "^9.5",
-        "drupal/core-project-message":   "^9.5",
-        "drupal/core-recommended":       "^9.5",
+        "drupal/core-composer-scaffold": "^10",
+        "drupal/core-project-message":   "^10",
+        "drupal/core-recommended":       "^10",
         "drupal/entity":                 "^1",
         "drupal/geolocation":            "^3",
         "drupal/inline_entity_form":     "^3",
@@ -39,6 +29,7 @@
         "drupal/smart_trim":             "^2",
         "drupal/search_api_solr":        "^4",
         "drupal/upgrade_status":         "^4",
+        "drush/drush":                   "^12",
         "google/apiclient": "~2.0",
         "city-of-bloomington/archive":        "dev-master",
         "city-of-bloomington/asm":            "dev-main",
@@ -49,7 +40,7 @@
         "city-of-bloomington/promt":          "dev-main"
     },
     "require-dev": {
-        "drupal/core-dev": "^9.5"
+        "drupal/core-dev": "^10"
     },
     "conflict": {
         "drupal/drupal": "*"
@@ -78,9 +69,11 @@
         "allow-plugins": {
             "composer/installers": true,
             "dealerdirect/phpcodesniffer-composer-installer": true,
-            "cweagans/composer-patches": true,
             "drupal/core-composer-scaffold": true,
-            "drupal/core-project-message": true
+            "drupal/core-project-message": true,
+            "php-http/discovery": true,
+            "phpstan/extension-installer": true,
+            "tbachert/spi": true
         }
     }
 }
