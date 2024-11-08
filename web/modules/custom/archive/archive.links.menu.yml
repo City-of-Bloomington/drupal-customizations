@@ -1,0 +1,7 @@
+---
+archive.settings:
+  title: 'Archive Settings'
+  description: 'Settings for the Archive module'
+  parent: system.admin_config_services
+  route_name: archive.settings
+...

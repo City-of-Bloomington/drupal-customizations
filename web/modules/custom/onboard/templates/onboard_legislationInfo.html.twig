@@ -1,0 +1,38 @@
+{#
+/**
+ * @file
+ * Displays a single piece of legislation
+ *
+ * Available variables
+ * - legislation: The legislation JSON data from OnBoard
+ * - node:        The node object for the board page in Drupal
+ *
+ * @copyright 2017 City of Bloomington, Indiana
+ * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
+ */
+#}
+<section>
+    <header>
+        <h2>{{ legislation.title }}</h2>
+    </header>
+    <p>{{ legislation.synopsis }}</p>
+
+    <table><tr><th>Amends Code</th><td>{{ legislation.amendsCode ? 'Yes' : 'No' }}</td></tr></table>
+    {% if legislation.actions %}
+    <table>
+        {% for a in legislation.actions %}
+        <tr><th>{{ a.name    }}</th>
+            <td>{{ a.date    }}</td>
+            <td>{{ a.outcome }}</td>
+            <td>{{ a.vote    }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+
+    {% if legislation.files %}
+        {% for f in legislation.files %}
+        <a class="download button" href="{{ f.url }}">Download</a>
+        {% endfor %}
+    {% endif %}
+</section>

@@ -1,0 +1,11 @@
+---
+onboard.settings:
+  path: '/admin/config/onboard/settings'
+  defaults:
+    _form: '\Drupal\onboard\Form\SettingsForm'
+    _title: 'OnBoard Settings'
+  requirements:
+    _permission: 'administer site configuration'
+route_callbacks:
+  - '\Drupal\onboard\Routing\Routes::routes'
+...

@@ -1,0 +1,7 @@
+---
+onboard.settings:
+  title: 'OnBoard Settings'
+  description: 'Settings for the OnBoard Module'
+  parent: system.admin_config_services
+  route_name: onboard.settings
+...

@@ -1,0 +1,8 @@
+---
+name:        'OnBoard'
+description: 'Integration with external boards and commissions data'
+package:     'COB'
+type:        'module'
+configure:   'onboard.settings'
+core_version_requirement: '^9||^10'
+...

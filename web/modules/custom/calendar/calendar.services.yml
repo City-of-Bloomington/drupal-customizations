@@ -1,0 +1,13 @@
+# @copyright 2017-2021 City of Bloomington, Indiana
+# @license https://www.gnu.org/licenses/old-licenses/gpl-2.0 GNU/GPL2, see LICENSE
+---
+services:
+  calendar.twig.TwigExtension:
+    class: '\Drupal\calendar\Twig\TwigExtension'
+    tags:
+      - { name: twig.extension }
+  calendar.breadcrumb:
+    class: '\Drupal\calendar\Breadcrumb\BreadcrumbBuilder'
+    tags:
+      - { name: 'breadcrumb_builder', priority: 100 }
+...

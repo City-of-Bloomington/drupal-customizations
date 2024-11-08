@@ -1,0 +1,17 @@
+---
+archive.settings:
+  path: '/admin/config/archive/settings'
+  defaults:
+    _form: '\Drupal\archive\Form\SettingsForm'
+    _title: 'Archive Settings'
+  requirements:
+    _permission: 'administer site configuration'
+archive.dateform:
+  path: '/archive/dateform'
+  defaults:
+    _form: '\Drupal\archive\Form\DateForm'
+  requirements:
+    _permission: 'access content'
+route_callbacks:
+  - '\Drupal\archive\Routing\ArchiveRoutes::routes'
+...

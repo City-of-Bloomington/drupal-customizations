@@ -1,0 +1,43 @@
+<?php
+/**
+ * @copyright 2017-2021 City of Bloomington, Indiana
+ * @license https://www.gnu.org/licenses/old-licenses/gpl-2.0 GNU/GPL2, see LICENSE
+ */
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\onboard\OnBoardService;
+
+/**
+ * @implements hook_help()
+ */
+function calendar_help($route_name, RouteMatchInterface $route_match)
+{
+    switch ($route_name) {
+        case 'help.page.onboard':
+            return "<h2>Google Calendar Help</h2>";
+        break;
+    }
+}
+
+/**
+ * @implements hook_theme()
+ * @see https://api.drupal.org/api/drupal/core!lib!Drupal!Core!Render!theme.api.php/function/hook_theme/8.2.x
+ */
+function calendar_theme()
+{
+    return [
+        'calendar_events'=> [
+            'template'  => 'calendar_events',
+            'variables' => [
+                'events'     => [],
+                'calendarId' => ''
+            ]
+        ],
+        'calendar_event' => [
+            'template'  => 'calendar_event',
+            'variables' => [
+                'event'      => [],
+                'calendarId' => ''
+            ]
+        ]
+    ];
+}

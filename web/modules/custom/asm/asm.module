@@ -1,0 +1,98 @@
+<?php
+/**
+ * @copyright 2017-2018 City of Bloomington, Indiana
+ * @license https://www.gnu.org/licenses/old-licenses/gpl-2.0 GNU/GPL2, see LICENSE
+ *
+ * This file is part of the ASM drupal module.
+ *
+ * The ASM module is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * The ASM module is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with the ASM module.  If not, see <https://www.gnu.org/licenses/old-licenses/gpl-2.0/>.
+ */
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\asm\Controller\ASMController;
+
+/**
+ * @implements hook_help()
+ */
+function asm_help($route_name, RouteMatchInterface $route_match)
+{
+    switch ($route_name) {
+        case 'help.page.asm':
+            return "<h2>Animal Shelter Manager Help</h2>";
+        break;
+    }
+}
+
+/**
+ * @implements hook_theme()
+ * @see https://api.drupal.org/api/drupal/core!lib!Drupal!Core!Render!theme.api.php/function/hook_theme/8.2.x
+ */
+function asm_theme($existing, $type, $theme, $path)
+{
+    return [
+        'asm_adoptable_animals' => [
+            'template'  => 'asm_adoptable_animals',
+            'variables' => [
+                'animals' => [],
+                'asm_url' => null,
+                'proxy'   => false
+            ]
+        ],
+        'asm_adoptable_animal' => [
+            'template'  => 'asm_adoptable_animal',
+            'variables' => [
+                'animal'  => [],
+                'asm_url' => null,
+                'proxy'   => false
+            ]
+        ],
+        'asm_lf_animals' => [
+            'template' => 'asm_lf_animals',
+            'variables' => [
+                'animals' => [],
+                'asm_url' => null,
+                'proxy'   => false,
+                'title'   => '',
+                'mode'    => '' # lost || found
+            ]
+        ],
+        'asm_lf_animal' => [
+            'template' => 'asm_lf_animal',
+            'variables' => [
+                'animal'  => [],
+                'asm_url' => null,
+                'proxy'   => false
+            ]
+        ],
+        'asm_held_animals' => [
+            'template'  => 'asm_held_animals',
+            'variables' => [
+                'animals' => [],
+                'asm_url' => null,
+                'proxy'   => false
+            ]
+        ],
+    ];
+}
+
+// /**
+//  * @implements hook_cache_flush
+//  * @see https://api.drupal.org/api/drupal/core%21core.api.php/function/hook_cache_flush/8.2.x
+//  */
+// function asm_cache_flush()
+// {
+//     $cacheDir = \Drupal::config('asm.settings')->get('asm_cache');
+//     if ($cacheDir) {
+//         exec('rm -Rf '.escapeshellarg(escapeshellcmd($cacheDir)));
+//     }
+// }

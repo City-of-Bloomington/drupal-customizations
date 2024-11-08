@@ -1,0 +1,16 @@
+---
+calendar.settings:
+  path: '/admin/config/calendar/settings'
+  defaults:
+    _form: '\Drupal\calendar\Form\SettingsForm'
+    _title: 'Calendar Settings'
+  requirements:
+    _permission: 'administer site configuration'
+
+calendar.event_view:
+  path: '/calendars/{calendar_id}/{event_id}'
+  defaults:
+    _controller: '\Drupal\calendar\Controller\CalendarController::event_info'
+  requirements:
+    _permission: 'access content'
+...

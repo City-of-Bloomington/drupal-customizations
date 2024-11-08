@@ -1,0 +1,25 @@
+{#
+/**
+ * @file
+ * Displays the list of Reports for a Committee
+ *
+ * Available variables
+ * - reports:     JSON data from OnBoard containing report information
+ * - nid:         The current node ID
+ *
+ * @copyright 2017 City of Bloomington, Indiana
+ * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
+ */
+#}
+<section id="reports">
+    <div>
+        {% for r in reports %}
+        <article>
+            <a href="{{ r.url }}">
+                <header><h3>{{ r.date|date("F j, Y") }}</h3></header>
+                <p>{{ r.title }}</p>
+            </a>
+        </article>
+        {% endfor %}
+    </div>
+</section>

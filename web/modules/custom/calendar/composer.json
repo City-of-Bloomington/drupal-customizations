@@ -1,0 +1,8 @@
+{
+    "name": "city-of-bloomington/calendar",
+    "type": "drupal-custom-module",
+    "description": "Drupal module for displaying events from Google Calendars",
+    "require": {
+        "google/apiclient": "~2.0"
+    }
+}

@@ -1,0 +1,5 @@
+{
+    "name": "city-of-bloomington/directory",
+    "type": "drupal-custom-module",
+    "description": "Integration with Directory web application"
+}

@@ -1,0 +1,47 @@
+{#
+/**
+ * @file
+ * Displays the list of Legislation in a single year for a committee
+ *
+ * Available variables
+ * - legislation: The legislation JSON data from OnBoard
+ * - type:        Type of legislation being listed
+ * - year:        The year for the legislation being listed
+ * - years:       Available years to choose from
+ * - node:        The node object for the board page in Drupal
+ *
+ * @copyright 2017 City of Bloomington, Indiana
+ * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
+ */
+#}
+<section>
+    <header>
+        <div class="tools">
+            {% set route = 'onboard.legislationList.node-' ~ node.id %}
+            {% for y in years %}
+            <a href="{{ path(route, {'node':node.id, 'type':type, 'year':y}) }}"{% if y == year %} class="current"{% endif %}>
+                {{ y }}
+            </a>
+            {% endfor %}
+
+            {% set route = 'onboard.legislationYears.node-' ~ node.id %}
+            <a href="{{ path(route, {'node':node.id, 'type':type}) }}">Archive</a>
+        </div>
+    </header>
+
+    <table>
+    {% for l in legislation %}
+    {% set route = 'onboard.legislationInfo.node-' ~ node.id %}
+    {% set url   = path(route, {'node':node.id, 'type':type, 'year':year, 'number':l.number}) %}
+    <tr><td><a href="{{ url }}">{{ l.type   }}</a></td>
+        <td><a href="{{ url }}">{{ l.number }}</a></td>
+        <td><a href="{{ url }}">{{ l.status }}</a></td>
+        <td>{% for file in l.files %}
+            <a href="{{ file.url }}">Download</a>
+            {% endfor %}
+        </td>
+        <td><a href="{{ url }}">{{ l.title }}</a></td>
+    </tr>
+    {% endfor %}
+    </table>
+</section>

@@ -1,0 +1,27 @@
+{#
+/**
+ * @file
+ * Displays search form and results for Parks & Rec Programs
+ *
+ * Available variables
+ * - form:    The search form
+ * - results: The program search results
+ *
+ * @copyright 2017 City of Bloomington, Indiana
+ * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
+ */
+#}
+<section>
+    <header><h2>Programs</h2></header>
+    <div class="container">
+        <header>
+            <h3>Find Activities</h3>
+            <p> Search for specific activities and programs by filtering on
+                type, age, or location.  Find the exact activities you are
+                interested in.
+            </p>
+        </header>
+        {{ form }}
+        {% include 'promt_programs.html.twig' with {'programs':results} %}
+    </div>
+</section>

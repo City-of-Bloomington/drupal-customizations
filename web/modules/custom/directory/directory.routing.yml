@@ -1,0 +1,16 @@
+---
+directory.directory:
+  path: 'contact/directory'
+  defaults:
+    _controller: '\Drupal\directory\Controller\DirectoryController::directory'
+    _title: 'Staff Directory'
+  requirements:
+    _permission: 'access content'
+directory.settings:
+  path: '/admin/config/directory/settings'
+  defaults:
+    _form: '\Drupal\directory\Form\SettingsForm'
+    _title: 'Directory Settings'
+  requirements:
+    _permission: 'administer site configuration'
+...

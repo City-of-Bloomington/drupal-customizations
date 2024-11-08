@@ -1,0 +1,7 @@
+---
+promt.settings:
+  title: 'PROMT Settings'
+  description: 'Settings for the PROMT Module'
+  parent: system.admin_config_services
+  route_name: promt.settings
+...

@@ -1,0 +1,7 @@
+---
+calendar.settings:
+  title: 'Calendar Settings'
+  description: 'Settings for the Calendar Module'
+  parent: system.admin_config_services
+  route_name: calendar.settings
+...

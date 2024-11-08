@@ -1,0 +1,11 @@
+---
+promt.settings:
+  path: '/admin/config/promt/settings'
+  defaults:
+    _form: '\Drupal\promt\Form\SettingsForm'
+    _title: 'PROMT Settings'
+  requirements:
+    _permission: 'administer site configuration'
+route_callbacks:
+  - '\Drupal\promt\Routing\Routes::routes'
+...

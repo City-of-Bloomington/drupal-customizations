@@ -1,0 +1,8 @@
+---
+name:        'Archive'
+description: 'Displays nodes filtered by year and month'
+package:     'COB'
+type:        'module'
+configure:   'archive.settings'
+core_version_requirement: '^9||^10'
+...

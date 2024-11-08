@@ -1,0 +1,53 @@
+{#
+/**
+ * @file
+ * Displays upcoming events from a Google Calendar
+ *
+ * Available variables
+ * - events: Google_Service_Calendar_EventList
+ * - calendarId: Google Calendar ID
+ *
+ * @see https://developers.google.com/google-apps/calendar/v3/reference/events
+ *
+ * @copyright 2017-2021 City of Bloomington, Indiana
+ * @license https://www.gnu.org/licenses/old-licenses/gpl-2.0 GNU/GPL2, see LICENSE
+ */
+#}
+<div class="events">
+{% for event in events %}
+<a href="{{ path('calendar.event_view', {'calendar_id': calendarId, 'event_id': event.id }) }}">
+<article>
+    <header>
+        {% if event.start.dateTime %}
+        <time datetime="{{ event.start.dateTime }}">
+            <span class="month"    >{{ event.start.dateTime | date('M')}}</span>
+            <span class="monthDate">{{ event.start.dateTime | date('j')}}</span>
+            <span class="weekday"  >{{ event.start.dateTime | date('l')}}</span>
+        </time>
+        {% else %}
+        <time datetime="{{ event.start.date }}">
+            <span class="month"    >{{ event.start.date     | date('M')}}</span>
+            <span class="monthDate">{{ event.start.date     | date('j')}}</span>
+            <span class="weekday"  >{{ event.start.date     | date('l')}}</span>
+        </time>
+        {% endif %}
+    </header>
+    <div>
+        {% if event.start.dateTime %}
+        <time datetime="{{ event.start.dateTime }}">
+            {{  event.start.dateTime | date('g:ia') }}
+            {% if event.end.dateTime %}
+            to {{ event.end.dateTime | date('g:ia') }}
+            {% endif %}
+        </time>
+        {% endif %}
+        <div class="summary" >{{ event.summary  }}</div>
+        <div class="location">{{ event.location }}</div>
+    </div>
+</article>
+</a>
+{% endfor %}
+</div>
+<div>
+<a href="https://calendar.google.com/calendar/embed?src={{ calendarId }}&ctz=America/New_York" class="button">Visit Calendar</a>
+</div>

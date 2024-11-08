@@ -1,0 +1,26 @@
+{#
+/**
+ * @file
+ * Displays the types of legislation from OnBoard
+ *
+ * Available variables
+ * - types: The legislation JSON data from OnBoard
+ * - node:  The node object for the board page in Drupal
+ *
+ * @copyright 2017 City of Bloomington, Indiana
+ * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
+ */
+#}
+<section id="legislationTypes">
+    <div>
+        {% set year  = 'now'|date('Y') %}
+        {% set route = 'onboard.legislationList.node-' ~ node.id %}
+        {% for t in types %}
+        <article>
+            <a href="{{ path(route, {'node':node.id, 'type':t, 'year':year}) }}">
+                <header><h3>{{ t }}</h3></header>
+            </a>
+        </article>
+        {% endfor %}
+    </div>
+</section>

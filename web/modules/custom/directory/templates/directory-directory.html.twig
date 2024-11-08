@@ -1,0 +1,51 @@
+<nav>
+{% for department in departments %}
+<a href="#dept-{{ loop.index }}">{{ department.getTitle() }}</a>
+{% endfor %}
+<nav>
+{% for department in departments %}
+<section>
+    <header>
+        <h2 id="dept-{{ loop.index }}">{{ department.getTitle() }}</h2>
+    </header>
+    <div class="departmentInfo">
+        <dl>{% if department.directory_info.address %}
+            <dt>Address</dt>
+            <dd>{{ department.directory_info.address }}</dd>
+            {% endif %}
+
+            {% if  department.directory_info.office %}
+            <dt>Office</dt>
+            <dd>{{ department.directory_info.office }}</dd>
+            {% endif %}
+
+            {% if department.directory_info.email %}
+            <dt>Email</dt>
+            <dd>{{ department.directory_info.email }}</dd>
+            {% endif %}
+        </dl>
+    </div>
+    {% if department.directory_info.people %}
+    <div class="departmentStaff">
+        <dl>
+            {% for person in department.directory_info.people %}
+            <dt>{% if person.displayName %}
+                {{ person.displayName }}
+                {% else %}
+                {{ person.firstname }} {{ person.lastname }}
+                {% endif %}
+            </dt>
+            {% if person.title %}
+            <dd class="title">{{ person.title }}</dd>
+            {% endif %}
+            <dd><a href="mailto:{{ person.email }}">{{ person.email }}</a>
+                {% if person.pager %}
+                <a href="tel:+1{{ person.pager|replace('/[^0-9]/', '') }}">{{ person.pager }}</a>
+                {% endif %}
+            </dd>
+            {% endfor %}
+        </dl>
+    </div>
+    {% endif %}
+</section>
+{% endfor %}

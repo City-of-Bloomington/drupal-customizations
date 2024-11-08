@@ -1,0 +1,52 @@
+{#
+/**
+ * @file
+ * Displays an animal from the Animal Shelter Manager
+ *
+ * Available variables
+ * - animal:  The animal data from JSON
+ * - asm_url: Base URL for Shelter Manager
+ * - proxy:   Whether to proxy images, or not
+ *
+ * @copyright 2017 City of Bloomington, Indiana
+ * @license https://www.gnu.org/licenses/old-licenses/gpl-2.0 GNU/GPL2, see LICENSE
+ *
+ * This file is part of the ASM drupal module.
+ *
+ * The ASM module is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * The ASM module is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with the ASM module.  If not, see <https://www.gnu.org/licenses/old-licenses/gpl-2.0/>.
+ */
+#}
+<section class="asm_animal">
+{% if animal is not empty %}
+    {% if animal.ANIMALCOMMENTS %}<p>{{ animal.ANIMALCOMMENTS }}</p>{% endif %}
+    {% if animal.WEBSITEIMAGECOUNT %}
+    {% for n in 1..animal.WEBSITEIMAGECOUNT %}
+        {% if proxy %}
+            <img src="{{ path('asm.image', {'animal_id': animal.ID, 'imagenum': n}) }}" />
+        {% else %}
+            <img src="{{ asm_url }}/service?method=animal_image;animalid={{ animal.ID }};imagenum=n" />
+        {% endif %}
+    {% endfor %}
+    {% endif %}
+    <table>
+    	<tr><th>Species</th><td>{{ animal.SPECIESNAME }}</td></tr>
+        <tr><th>Breed  </th><td>{{ animal.BREEDNAME   }}</td></tr>
+        <tr><th>Sex    </th><td>{{ animal.SEXNAME     }}</td></tr>
+        <tr><th>Age    </th><td>{{ animal.ANIMALAGE   }}</td></tr>
+        <tr><th>Size   </th><td>{{ animal.SIZENAME    }}</td></tr>
+        {% if  animal.DECLAWED        %}<tr><th>Declawed     </th><td>Declawed     </td></tr>{% endif %}
+        {% if  animal.HASSPECIALNEEDS %}<tr><th>Special Needs</th><td>Special Needs</td></tr>{% endif %}
+    </table>
+{% endif %}
+</section>

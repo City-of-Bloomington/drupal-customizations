@@ -1,0 +1,48 @@
+<?php
+/**
+ * @copyright 2017 City of Bloomington, Indiana
+ * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL
+ */
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\promt\PromtService;
+
+/**
+ * @implements hook_help()
+ */
+function promt_help($route_name, RouteMatchInterface $route_match)
+{
+    switch ($route_name) {
+        case 'help.page.promt':
+            return "<h2>Promt Help</h2>";
+        break;
+    }
+}
+
+/**
+ * @implements hook_theme()
+ * @see https://api.drupal.org/api/drupal/core!lib!Drupal!Core!Render!theme.api.php/function/hook_theme/8.2.x
+ */
+function promt_theme()
+{
+    return [
+        'promt_search'=> [
+            'template' => 'promt_search',
+            'variables' => [
+                'form'    => null,
+                'results' => null
+            ]
+        ],
+        'promt_program' => [
+            'template' => 'promt_program',
+            'variables' => [
+                'program' => null
+            ]
+        ],
+        'promt_programs'=> [
+            'template' => 'promt_programs',
+            'variables' => [
+                'programs' => null
+            ]
+        ]
+    ];
+}

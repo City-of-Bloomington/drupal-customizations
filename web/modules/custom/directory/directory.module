@@ -1,0 +1,59 @@
+<?php
+/**
+ * @copyright 2017 City of Bloomington, Indiana
+ * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE.txt
+ */
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\directory\DirectoryService;
+
+/**
+ * @implements hook_help()
+ */
+function directory_help($route_name, RouteMatchInterface $route_match)
+{
+    switch ($route_name) {
+        case 'help.page.directory':
+            return "<h2>Directory Help</h2>";
+        break;
+    }
+}
+
+/**
+ * @implements hook_theme()
+ * @see https://api.drupal.org/api/drupal/core!lib!Drupal!Core!Render!theme.api.php/function/hook_theme/8.2.x
+ */
+function directory_theme($existing, $type, $theme, $path)
+{
+    return [
+        'directory_directory' => [
+            'variables' => ['departments' => []]
+        ],
+        'directory_staff' => [
+            'variables' => ['department' => null]
+        ]
+    ];
+}
+
+/**
+ * Adds directory_info to department nodes that have a DN field
+ *
+ * Makes a request to the directory web service for each department
+ * and poopulates directory_info.
+ *
+ * @implements template_preprocess_HOOK()
+ * @see https://api.drupal.org/api/drupal/core!lib!Drupal!Core!Render!theme.api.php/group/themeable/8.2.x
+ */
+function template_preprocess_directory_directory(&$vars)
+{
+    foreach ($vars['departments'] as $i => $d) {
+        if ($d->hasField( 'field_directory_dn')) {
+            $dn = $d->get('field_directory_dn')->value;
+            if ($dn) {
+                $info = DirectoryService::department_info($dn);
+                if ($info) {
+                    $vars['departments'][$i]->directory_info = $info;
+                }
+            }
+        }
+    }
+}

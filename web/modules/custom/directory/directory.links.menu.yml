@@ -1,0 +1,7 @@
+---
+directory.settings:
+  title: 'Directory Settings'
+  description: 'Settings for the Directory Module'
+  parent: system.admin_config_services
+  route_name: directory.settings
+...

@@ -1,0 +1,108 @@
+<?php
+/**
+ * @copyright 2015-2017 City of Bloomington, Indiana
+ * @license https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt GNU/GPL, see LICENSE
+ */
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\onboard\OnBoardService;
+
+/**
+ * @implements hook_help()
+ */
+function onboard_help($route_name, RouteMatchInterface $route_match)
+{
+    switch ($route_name) {
+        case 'help.page.onboard':
+            return "<h2>Onboard Help</h2>";
+        break;
+    }
+}
+
+/**
+ * @implements hook_theme()
+ * @see https://api.drupal.org/api/drupal/core!lib!Drupal!Core!Render!theme.api.php/function/hook_theme/8.2.x
+ */
+function onboard_theme()
+{
+    return [
+        'onboard_upcoming_meetings' => [
+            'template' => 'onboard_upcoming_meetings',
+            'variables' => [
+                'meetings'  => null,
+                'committee' => null,
+                'nid'       => null
+
+            ]
+        ],
+        'onboard_meetingFiles'=> [
+            'template' => 'onboard_meetingFiles',
+            'variables' => [
+                'meetings'=>null, 'year'=>null, 'years'=>null, 'node'=>null
+            ]
+        ],
+        'onboard_meetingYears' => [
+            'template' => 'onboard_meetingYears',
+            'variables' => [
+                'decades' => null,
+                'node'    => null,
+                'upcoming'=> null,
+                'past'    => null
+            ]
+        ],
+        'onboard_members' => [
+            'template' => 'onboard_members',
+            'variables' => [
+                'committee'   => null,
+                'nid'         => null,
+                'onboard_url' => null
+            ]
+        ],
+        'onboard_legislationTypes' => [
+            'template' => 'onboard_legislationTypes',
+            'variables' => [
+                'types' => null,
+                'node'  => null
+            ]
+        ],
+        'onboard_legislationList' => [
+            'template' => 'onboard_legislationList',
+            'variables' => [
+                'legislation' => null,
+                'type'        => null,
+                'year'        => null,
+                'years'       => null,
+                'node'        => null
+            ]
+        ],
+        'onboard_legislationInfo' => [
+            'template' => 'onboard_legislationInfo',
+            'variables' => [
+                'legislation' => null,
+                'node'        => null
+            ]
+        ],
+        'onboard_legislationYears' => [
+            'template' => 'onboard_legislationYears',
+            'variables' => [
+                'decades' => null,
+                'node'    => null,
+                'type'    => null
+            ]
+        ],
+        'onboard_links' => [
+            'template' => 'onboard_links',
+            'variables' => [
+                'committee'   => null,
+                'nid'         => null,
+                'onboard_url' => null
+            ]
+        ],
+        'onboard_reports' => [
+            'template' => 'onboard_reports',
+            'variables' => [
+                'reports' => null,
+                'node'    => null
+            ]
+        ]
+    ];
+}

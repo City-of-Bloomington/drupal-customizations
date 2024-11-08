@@ -1,0 +1,24 @@
+{#
+/**
+ * @file
+ * Displays a list of node results
+ *
+ * Available variables
+ * - year:   int      The current year being displayed
+ * - month:  int      The current month being displayed (optional)
+ * - start:  DateTime The start date for node results
+ * - form:   array    The drupal form used for searching and browsing
+ * - type    string   The type of nodes being returned
+ * - results array    The node render arrays
+ *
+ * @copyright 2017-2019 City of Bloomington, Indiana
+ * @license http://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE
+ */
+#}
+<section>
+    <header>
+        <h2>{% if month %}{{ start|date('F') }} {% endif %}{{ year }}</h2>
+    </header>
+    {{ form }}
+    {{ results }}
+</section>
