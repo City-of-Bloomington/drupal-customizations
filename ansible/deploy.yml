@@ -47,7 +47,7 @@
     - name: "Extract release"
       ansible.builtin.unarchive:
         src:  "{{ drupal_archive_path }}"
-        dest: "{{ drupal_install_path }}"
+        dest: "{{ drupal_install_path | dirname }}"
         owner: 'www-data'
         group: 'staff'
 
