@@ -45,20 +45,11 @@
       no_log: "True"
 
     - name: "Extract release"
-      unarchive:
-        src: "{{ drupal_archive_path }}"
-        dest: "/usr/local/src"
-      register: "release"
-
-    - name: "Remove old release"
-      file:
-        path: "{{ drupal_install_path }}"
-        state: "absent"
-      when: "release.changed"
-
-    - name: "Install release"
-      command: "rsync -rl /usr/local/src/drupal/ {{ drupal_install_path }}/"
-      when: "release.changed"
+      ansible.builtin.unarchive:
+        src:  "{{ drupal_archive_path }}"
+        dest: "{{ drupal_install_path }}"
+        owner: 'www-data'
+        group: 'staff'
 
     - name: 'Link drupal config'
       file:
