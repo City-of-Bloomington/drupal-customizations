@@ -15,21 +15,21 @@
     ],
     "require": {
         "composer/installers":           "^2",
-        "drupal/cas":                    "^2",
+        "drupal/cas":                    "^3",
         "drupal/core-composer-scaffold": "^10",
         "drupal/core-project-message":   "^10",
         "drupal/core-recommended":       "^10",
         "drupal/entity":                 "^1",
-        "drupal/geolocation":            "^3",
+        "drupal/geolocation":            "^4",
         "drupal/inline_entity_form":     "^3",
-        "drupal/linkit":                 "^6",
+        "drupal/linkit":                 "^7",
         "drupal/paragraphs":             "^1",
         "drupal/pathauto":               "^1",
         "drupal/redirect":               "^1",
         "drupal/smart_trim":             "^2",
         "drupal/search_api_solr":        "^4",
         "drupal/upgrade_status":         "^4",
-        "drush/drush":                   "^12",
+        "drush/drush":                   "^13",
         "google/apiclient": "~2.0",
         "city-of-bloomington/archive":        "dev-master",
         "city-of-bloomington/asm":            "dev-main",
@@ -47,7 +47,11 @@
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
+    "scripts": {
+        "pre-autoload-dump": "Google\\Task\\Composer::cleanup"
+    },
     "extra": {
+        "google/apiclient-services": ["Calendar"],
         "drupal-scaffold": {
             "locations": {
                 "web-root": "web/"
