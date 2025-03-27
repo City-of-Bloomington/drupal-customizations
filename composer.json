@@ -23,6 +23,7 @@
         "drupal/geolocation":            "^4",
         "drupal/inline_entity_form":     "^3",
         "drupal/linkit":                 "^7",
+        "drupal/openid_connect":         "^3",
         "drupal/paragraphs":             "^1",
         "drupal/pathauto":               "^1",
         "drupal/redirect":               "^1",
