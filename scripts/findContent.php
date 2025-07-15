@@ -2,20 +2,17 @@
 /**
  * Raw database queries to find content on the site
  *
- * This script must be copied to /srv/sites/drupal before running.
- *
  * This script does not need drush and can be run using php directly:
- * cd /srv/sites/drupal
  * php findContent.php
  *
- * @copyright 2023 City of Bloomington, Indiana
+ * @copyright 2023-2025 City of Bloomington, Indiana
  * @license https://www.gnu.org/licenses/agpl.txt GNU/AGPL, see LICENSE
  */
 declare (strict_types=1);
 use Drupal\Core\DrupalKernel;
 use Symfony\Component\HttpFoundation\Request;
 
-$autoloader = require_once 'autoload.php';
+$autoloader = require_once '../web/autoload.php';
 $request    = Request::createFromGlobals();
 $kernel     = DrupalKernel::createFromRequest($request, $autoloader, 'prod');
 $kernel->boot();
