@@ -18,9 +18,9 @@ $kernel     = DrupalKernel::createFromRequest($request, $autoloader, 'prod');
 $kernel->boot();
 $db         = \Drupal::database();
 
-$pattern = '%bton%';
+$pattern = 'href="(https:\/\/(?!bloomington)[^"]+)"';
 $csv     = fopen('./results.csv', 'w');
-fwrite($csv, "term,type,url,title\n");
+fwrite($csv, "type,url,title,match\n");
 
 $tables = [
     'node__body'                 => 'body_value',
@@ -35,15 +35,20 @@ foreach ($tables as $table=>$column) {
     $sql    = "select b.entity_id,
                       a.alias,
                       d.type,
-                      d.title
+                      d.title,
+                      b.$column
                from $table b
                join node_field_data d on d.nid=b.entity_id
                left join path_alias a on a.`path`=concat('/node/', b.entity_id)
-               where b.$column like ?";
+               where regexp_like(b.$column, ?)";
     $query  = $db->query($sql, [$pattern]);
     $result = $query->fetchAll();
     foreach ($result as $row) {
-        echo "https://bloomington.in.gov{$row->alias} {$row->title}\n";
-        fputcsv($csv, [$term, $row->type, "https://bloomington.in.gov{$row->alias}", $row->title]);
+        echo "https://bloomington.in.gov{$row->alias} {$row->title}}\n";
+        $matches = [];
+        preg_match_all("/$pattern/", $row->$column, $matches);
+        foreach ($matches[1] as $match) {
+            fputcsv($csv, [$row->type, "https://bloomington.in.gov{$row->alias}", $row->title, $match]);
+        }
     }
 }
