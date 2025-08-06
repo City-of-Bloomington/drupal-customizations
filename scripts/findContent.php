@@ -19,6 +19,8 @@ $kernel->boot();
 $db         = \Drupal::database();
 
 $pattern = '%bton%';
+$csv     = fopen('./results.csv', 'w');
+fwrite($csv, "term,type,url,title\n");
 
 $tables = [
     'node__body'                 => 'body_value',
@@ -28,15 +30,20 @@ $tables = [
     'node__field_call_to_action' => 'field_call_to_action_uri',
     'paragraph__field_info_link' => 'field_info_link_uri'
 ];
+
 foreach ($tables as $table=>$column) {
     $sql    = "select b.entity_id,
-                      a.alias
+                      a.alias,
+                      d.type,
+                      d.title
                from $table b
+               join node_field_data d on d.nid=b.entity_id
                left join path_alias a on a.`path`=concat('/node/', b.entity_id)
                where b.$column like ?";
     $query  = $db->query($sql, [$pattern]);
     $result = $query->fetchAll();
     foreach ($result as $row) {
-        echo "https://bloomington.in.gov{$row->alias}\n";
+        echo "https://bloomington.in.gov{$row->alias} {$row->title}\n";
+        fputcsv($csv, [$term, $row->type, "https://bloomington.in.gov{$row->alias}", $row->title]);
     }
 }
