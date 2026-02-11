@@ -1,40 +1,11 @@
 #!/bin/bash
-# Creates a tarball containing a full snapshot of the data in the site
+# Rsyncs drupal file uploads to an external backup server
 #
-# @copyright 2011-2023 City of Bloomington, Indiana
+# @copyright 2011-2026 City of Bloomington, Indiana
 # @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE
-APPLICATION_NAME=drupal
-MYSQL_CREDENTIALS=/etc/mysql/debian.cnf
-BACKUP_DIR={{ drupal_backup_path }}
-APPLICATION_HOME={{ drupal_install_path }}
-SITE_HOME={{ drupal_site_home }}
+host=`hostname`
+remote_dir={{ drupal_backup.path }}/$host/drupal/files
 
-MYSQL_DBNAME=$APPLICATION_NAME
-
-# How many days worth of tarballs to keep around
-num_days_to_keep=5
-
-#----------------------------------------------------------
-# No Editing Required below this line
-#----------------------------------------------------------
-now=`date +%s`
-today=`date +%F`
-
-# Dump the database
-cd $SITE_HOME
-mysqldump --defaults-extra-file=$MYSQL_CREDENTIALS $MYSQL_DBNAME > $SITE_HOME/$MYSQL_DBNAME.sql
-
-# Tarball the Data
-tar -czf $today.tar.gz $MYSQL_DBNAME.sql
-mv $today.tar.gz $BACKUP_DIR
-
-# Purge any backup tarballs that are too old
-cd $BACKUP_DIR
-for file in `ls`
-do
-    atime=`stat -c %Y $file`
-    if [ $(( $now - $atime >= $num_days_to_keep*24*60*60 )) = 1 ]
-    then
-        rm $file
-    fi
-done
+cd {{ drupal_site_home }}
+ssh -n -i /root/.ssh/{{ drupal_backup.user }} {{ drupal_backup.user }}@{{ drupal_backup.host }} "mkdir -p $remote_dir"
+rsync -rle "ssh -i /root/.ssh/{{ drupal_backup.user }}" ./files/ {{ drupal_backup.user }}@{{ drupal_backup.host }}:$remote_dir/

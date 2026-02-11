@@ -18,7 +18,7 @@ git clone https://github.com/City-of-Bloomington/drupal-customizations
 cd drupal-customizations
 composer update
 make
-cd uReport/ansible
+cd ansible
 ansible-galaxy install -r roles.yml
 ansible-playbook deploy.yml -i /path/to/inventory
 ```
@@ -42,23 +42,29 @@ git clone https://github.com/City-of-Bloomington/ansible-role-solr.git   ./roles
 
 Variables
 ---------
-All of the variables used are first declared in group_vars/all.yml.  Override them in your inventory as needed.
+```yaml
+drupal_archive_path: "../build/drupal.tar.gz"
+drupal_install_path: "/srv/sites/drupal"
+drupal_backup_path:  "/srv/backups/drupal"
+drupal_site_home:    "/srv/data/drupal"
 
-### drupal_archive_path
-This is the path, on your local host, for the tarball to deploy.  If you compile your own release, the makefile for the repository will generate this at the path declared in group_vars/all.
+drupal_base_uri: "/"
+drupal_base_url: "https://{{ ansible_host }}{{ drupal_base_uri }}"
 
-### drupal_install_path
-Where on the host to deploy Drupal.  Apache will be configured to serve drupal out of this directory.
+drupal_db:
+  host: "localhost"
+  name: "drupal"
+  user: "drupal"
+  pass: "{{ vault_drupal_db.pass }}"
 
-### drupal_backup_path
-The deploy playbook will set up a cron script to create nightly database dumps.  The database dumps will be tarballed and stored in the backup path.
-
-### drupal_site_home
-For our deployments, we find it convenient to store the default site outside of the Drupal directory.  This allows us to deploy new versions of Drupal by deleting Drupal (install path) and replacing it with a copy of the new Drupal directory.  The deploy playbook will create a symlink to drupal_site_home.
-
-### drupal_base_uri
-The deploy playbook supports hosting Drupal at either the root or a subdirectory of the Apache host.  If you configure drupal_base_uri as "/", then the playbook will overwrite the 000-default.conf.  If you deploy it as a subdirectory, it will create a separate drupal.conf in sites-enabled/conf.d.
-
+drupal_backup:
+  host: "{{ backup.host }}"
+  user: "{{ backup.user }}"
+  path: "{{ backup.path }}"
+  id_rsa:
+    private: "{{ backup.id_rsa.private }}"
+    public:  "{{ backup.id_rsa.public  }}"
+```
 
 Run the Playbook
 ----------------
@@ -70,7 +76,7 @@ It is commonly desired to push changes to the apache configuration for deployed 
 License
 -------
 
-Copyright (c) 2016-2019 City of Bloomington, Indiana
+Copyright (c) 2016-2026 City of Bloomington, Indiana
 
 This material is avialable under the GNU General Public License (GLP) v2.0:
 https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt
