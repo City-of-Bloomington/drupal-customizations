@@ -2,7 +2,6 @@
 - hosts: "drupal"
   become: "yes"
   roles:
-    - "City-of-Bloomington.mysql"
     - "City-of-Bloomington.php"
 
   tasks:
@@ -27,22 +26,6 @@
         - "{{ drupal_backup_path  }}"
         - "{{ drupal_site_home    }}"
         - "/var/log/cron"
-
-    - name: "Create mysql database"
-      mysql_db:
-        config_file: "{{ mysql_defaults_extra_file }}"
-        name: "{{ drupal_db.name }}"
-        state: "present"
-      no_log: "True"
-
-    - name: "Create mysql user for site"
-      mysql_user:
-        name:     "{{ drupal_db.user }}"
-        password: "{{ drupal_db.pass }}"
-        priv:     "{{ drupal_db.name }}.*:ALL"
-        state: "present"
-        config_file: "{{ mysql_defaults_extra_file }}"
-      no_log: "True"
 
     - name: "Extract release"
       ansible.builtin.unarchive:
